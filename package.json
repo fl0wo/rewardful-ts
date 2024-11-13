@@ -1,5 +1,6 @@
 {
   "name": "rewardful-ts",
+  "description": "Unofficial Rewardful's API client for Node.js and Browser",
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
@@ -38,6 +39,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
+  "pnpm": {},
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "publishConfig": {

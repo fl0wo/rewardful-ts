@@ -1,12 +1,22 @@
-import { typescript } from 'projen';
+import {typescript} from 'projen';
+import {NodePackageManager} from "projen/lib/javascript";
+
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'rewardful-ts',
+  description: 'Unofficial Rewardful\'s API client for Node.js and Browser',
+  packageName: 'rewardful-ts',
+
   projenrcTs: true,
 
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  release: true,
+  releaseToNpm: true,
+  npmTokenSecret: "NPM_TOKEN",
+  npmRegistryUrl: "https://registry.npmjs.org",
+
+  packageManager: NodePackageManager.PNPM,
+
+  deps: [],
 });
+
 project.synth();

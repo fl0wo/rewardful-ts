@@ -1,5 +1,5 @@
-import { Hello } from '../src';
+import { RewardfulClient } from '../src';
 
 test('hello', () => {
-  expect(new Hello().sayHello()).toBe('hello, world!');
+  expect(new RewardfulClient().sayHello()).toBe('hello, world!');
 });
