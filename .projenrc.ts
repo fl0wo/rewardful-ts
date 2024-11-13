@@ -7,10 +7,27 @@ const project = new typescript.TypeScriptProject({
   description: 'Unofficial Rewardful\'s API client for Node.js and Browser',
   packageName: 'rewardful-ts',
 
-  projenrcTs: true,
+  // AUTHOR
+  authorName: 'Florian Sabani',
+  authorEmail: 'sabaniflorian@gmail.com',
+
+  // GITHUB
+  repository: 'https://github.com/fl0wo/rewardful-ts.git',
+
+  // PACKAGE RELEASE CONFIGURATION
+  releaseToNpm: true,
+  npmDistTag: 'latest',
+  releaseWorkflowSetupSteps: [],
+
+  pnpmVersion: '9.12.1',
+
+  maxNodeVersion: '22',
+  workflowNodeVersion: '22',
 
   release: true,
-  releaseToNpm: true,
+  eslint: false,
+  projenrcTs: true,
+
   npmTokenSecret: "NPM_TOKEN",
   npmRegistryUrl: "https://registry.npmjs.org",
 
