@@ -93,6 +93,27 @@ const UpdateAffiliateRequest = z
   })
   .partial()
   .passthrough();
+const SSO = z
+  .object({
+    url: z
+      .string()
+      .url()
+      .describe("URL for the SSO login link for the affiliate"),
+    expires: z
+      .string()
+      .datetime({ offset: true })
+      .describe("Expiration timestamp of the SSO link"),
+  })
+  .passthrough();
+const AffiliateBasic = z
+  .object({
+    id: z.string().uuid().describe("Affiliate ID"),
+    email: z.string().email().describe("Email address of the affiliate"),
+  })
+  .passthrough();
+const MagicLinkResponse = z
+  .object({ sso: SSO, affiliate: AffiliateBasic })
+  .passthrough();
 
 export const schemas = {
   Pagination,
@@ -103,6 +124,9 @@ export const schemas = {
   ListAllAffiliatesResponse,
   CreateAffiliateRequest,
   UpdateAffiliateRequest,
+  SSO,
+  AffiliateBasic,
+  MagicLinkResponse,
 };
 
 const endpoints = makeApi([
@@ -217,6 +241,33 @@ const endpoints = makeApi([
         description: `Bad Request - Invalid input data`,
         schema: z.void(),
       },
+      {
+        status: 401,
+        description: `Unauthorized - Invalid API key or permissions`,
+        schema: z.void(),
+      },
+      {
+        status: 404,
+        description: `Affiliate not found`,
+        schema: z.void(),
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/affiliates/:id/sso",
+    alias: "getAffiliatesIdsso",
+    description: `Generate an SSO link for an affiliate, allowing them to access their account`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "id",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: MagicLinkResponse,
+    errors: [
       {
         status: 401,
         description: `Unauthorized - Invalid API key or permissions`,

@@ -81,6 +81,21 @@
 //         expect(affiliate).toBeDefined();
 //     });
 //
+//     it('magic link', async () => {
+//         const api = createRewardfulClient(
+//             rewardfullSecret
+//         );
+//
+//         const magicLink = await api
+//             .getAffiliatesIdsso({
+//                 params: {
+//                     id: "7da3be64-90d2-48cf-abad-2aeb173ee24a",
+//                 }
+//             });
+//
+//         console.log("My magic link:", magicLink);
+//     });
+//
 // });
 
 describe('ok', () => {

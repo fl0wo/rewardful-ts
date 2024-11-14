@@ -267,6 +267,48 @@ components:
           type: string
           description: Stripe customer ID associated with the affiliate
           example: cus_ABC123
+    SSO:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URL for the SSO login link for the affiliate
+          example: https://affiliates.example.com/sso?token=eyJhbGciOiJIUzI1NiJ9
+        expires:
+          type: string
+          format: date-time
+          description: Expiration timestamp of the SSO link
+          example: 2020-08-28T05:32:02.471Z
+      required:
+        - url
+        - expires
+    AffiliateBasic:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Affiliate ID
+          example: d049c0c6-5caf-440e-a774-8d5e87086d0b
+        email:
+          type: string
+          format: email
+          description: Email address of the affiliate
+          example: jason@example.com
+      required:
+        - id
+        - email
+    MagicLinkResponse:
+      type: object
+      properties:
+        sso:
+          $ref: "#/components/schemas/SSO"
+        affiliate:
+          $ref: "#/components/schemas/AffiliateBasic"
+      required:
+        - sso
+        - affiliate
   parameters: {}
 paths:
   /affiliates:
@@ -386,6 +428,33 @@ paths:
                 $ref: "#/components/schemas/Affiliate"
         "400":
           description: Bad Request - Invalid input data
+        "401":
+          description: Unauthorized - Invalid API key or permissions
+        "404":
+          description: Affiliate not found
+  /affiliates/{id}/sso:
+    get:
+      description: Generate an SSO link for an affiliate, allowing them to access
+        their account
+      summary: Generate SSO link for affiliate
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+            description: The unique identifier of the affiliate
+            example: d049c0c6-5caf-440e-a774-8d5e87086d0b
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: SSO link and affiliate information successfully generated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MagicLinkResponse"
         "401":
           description: Unauthorized - Invalid API key or permissions
         "404":
