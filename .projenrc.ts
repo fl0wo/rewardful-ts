@@ -33,20 +33,11 @@ const project = new typescript.TypeScriptProject({
 
     packageManager: NodePackageManager.PNPM,
 
-    jestOptions: {
-        passWithNoTests: true,
-    },
     jest: true,
 
     gitignore: [
         'secret.ts',
     ],
-
-    // tsconfig: {
-    //     compilerOptions: {
-    //         declaration: false,
-    //     }
-    // },
 
     keywords: [
         'rewardful', 'affiliate', 'api', 'client', 'typescript', 'nodejs', 'sdk',
@@ -54,8 +45,6 @@ const project = new typescript.TypeScriptProject({
     ],
 
     deps: [
-        '@apidevtools/swagger-parser',
-        'zod',
         '@zodios/core'
     ],
     devDeps: [
@@ -64,7 +53,8 @@ const project = new typescript.TypeScriptProject({
         '@apidevtools/swagger-parser',
         'openapi3-ts',
         'prettier',
-        'nock'
+        'nock',
+        'zod'
     ]
 });
 

@@ -68,15 +68,11 @@
       "type": "build"
     },
     {
-      "name": "@apidevtools/swagger-parser",
-      "type": "runtime"
+      "name": "zod",
+      "type": "build"
     },
     {
       "name": "@zodios/core",
-      "type": "runtime"
-    },
-    {
-      "name": "zod",
       "type": "runtime"
     }
   ],

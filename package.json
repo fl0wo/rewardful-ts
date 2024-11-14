@@ -45,12 +45,11 @@
     "projen": "^0.90.2",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "zod": "^3.23.8"
   },
   "dependencies": {
-    "@apidevtools/swagger-parser": "^10.1.0",
-    "@zodios/core": "^10.9.6",
-    "zod": "^3.23.8"
+    "@zodios/core": "^10.9.6"
   },
   "pnpm": {},
   "keywords": [

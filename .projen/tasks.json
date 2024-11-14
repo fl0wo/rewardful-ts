@@ -214,13 +214,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@apidevtools/swagger-parser,@asteasolutions/zod-to-openapi,@types/jest,@types/node,jest,nock,openapi-zod-client,openapi3-ts,prettier,projen,ts-jest,ts-node,typescript,@zodios/core,zod"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@apidevtools/swagger-parser,@asteasolutions/zod-to-openapi,@types/jest,@types/node,jest,nock,openapi-zod-client,openapi3-ts,prettier,projen,ts-jest,ts-node,typescript,zod,@zodios/core"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @apidevtools/swagger-parser @asteasolutions/zod-to-openapi @types/jest @types/node commit-and-tag-version constructs jest jest-junit nock openapi-zod-client openapi3-ts prettier projen ts-jest ts-node typescript @zodios/core zod"
+          "exec": "pnpm update @apidevtools/swagger-parser @asteasolutions/zod-to-openapi @types/jest @types/node commit-and-tag-version constructs jest jest-junit nock openapi-zod-client openapi3-ts prettier projen ts-jest ts-node typescript zod @zodios/core"
         },
         {
           "exec": "npx projen"
