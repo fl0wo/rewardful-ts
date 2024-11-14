@@ -1,13 +1,7 @@
 import {z} from "zod";
 import {extendZodWithOpenApi} from "@asteasolutions/zod-to-openapi";
+import {CampaignSchema} from "../campain/schema";
 extendZodWithOpenApi(z);
-
-export const CampaignSchema = z.object({
-    id: z.string().uuid().openapi({ example: 'a638ebe4-291d-47cd-a1dc-1519f9331bbd' }),
-    created_at: z.string().datetime().openapi({ example: '2019-04-27T18:13:13.123Z' }),
-    updated_at: z.string().datetime().openapi({ example: '2019-05-05T20:58:24.200Z' }),
-    name: z.string().openapi({ example: 'Best Friends of Kyle' })
-}).openapi('Campaign');
 
 export const LinkSchema = z.object({
     id: z.string().uuid().openapi({ example: 'eb844960-6c42-4a3b-8009-f588a42d8506' }),
