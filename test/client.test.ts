@@ -1,6 +1,14 @@
 import {createRewardfulClient} from "../src";
 import nock from "nock";
-import {aCommission, aCommissionItem, aPayout} from "../src/mock/client.mock.data";
+import {
+    aCommission,
+    aCommissionItem, aCustumer,
+    aCoupon,
+    aLink,
+    anAffiliate,
+    aPayout,
+    aReferral
+} from "../src/mock/client.mock.data";
 import {RewardfulCommission} from "../src/schemas/commission/schema";
 import {RewardfulPayout} from "../src/schemas/payout/schema";
 
@@ -403,7 +411,7 @@ describe("Mocked Affiliate Tests", () => {
         });
 
         it("get a single commission", async () => {
-            const mockCommission:RewardfulCommission = {
+            const mockCommission: RewardfulCommission = {
                 ...aCommission,
                 id: "39e68c88-d84a-4510-b3b4-43c75016a080",
                 currency: "USD",
@@ -416,7 +424,7 @@ describe("Mocked Affiliate Tests", () => {
                 .reply(200, mockCommission);
 
             const commission = await api.getCommissionsId({
-                params: { id: "39e68c88-d84a-4510-b3b4-43c75016a080" },
+                params: {id: "39e68c88-d84a-4510-b3b4-43c75016a080"},
             });
 
             expect(commission).toBeDefined();
@@ -425,7 +433,7 @@ describe("Mocked Affiliate Tests", () => {
         });
 
         it("mark commission as paid", async () => {
-            const mockPayoutResponse:RewardfulPayout = {
+            const mockPayoutResponse: RewardfulPayout = {
                 ...aPayout,
                 id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca",
                 state: "processing",
@@ -444,7 +452,7 @@ describe("Mocked Affiliate Tests", () => {
 
             const payout = await api.putPayoutsIdpay(
                 undefined,
-                { params: { id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca" } }
+                {params: {id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca"}}
             );
 
             expect(payout).toBeDefined();
@@ -465,13 +473,342 @@ describe("Mocked Affiliate Tests", () => {
                 .reply(200, mockUpdatedCommission);
 
             const updatedCommission = await api.putCommissionsId(
-                { due_at: "2023-03-25T12:00:00.000Z", paid_at: "2023-03-20T12:00:00.000Z" },
-                { params: { id: "01342824-914a-4aee-9f42-de823a8b74e2" } }
+                {due_at: "2023-03-25T12:00:00.000Z", paid_at: "2023-03-20T12:00:00.000Z"},
+                {params: {id: "01342824-914a-4aee-9f42-de823a8b74e2"}}
             );
 
             expect(updatedCommission).toBeDefined();
             expect(updatedCommission.due_at).toBe("2023-03-25T12:00:00.000Z");
             expect(updatedCommission.paid_at).toBe("2023-03-20T12:00:00.000Z");
         });
+    });
+
+    describe("affiliate coupons", () => {
+
+        it("list affiliate coupons with mocked response", async () => {
+            const mockResponse = {
+                data: [
+                    {
+                        ...aCoupon,
+                        id: "75434e84-255b-4314-a278-820df5e76813",
+                        affiliate_id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca",
+                        token: "CODE",
+                    },
+                ],
+                pagination: {
+                    previous_page: null,
+                    current_page: 1,
+                    next_page: null,
+                    count: 1,
+                    limit: 25,
+                    total_pages: 1,
+                    total_count: 1,
+                },
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/affiliate_coupons")
+                .reply(200, mockResponse);
+
+            const {data} = await api.getAffiliate_coupons();
+
+            expect(data).toBeDefined();
+            expect(data?.length).toBeGreaterThan(0);
+            expect(data?.[0].token).toBe("CODE");
+            expect(data?.[0].affiliate_id).toBe("3b03791a-3fb5-4bd6-8ec3-614c9fd978ca");
+        });
+
+        it("get a single affiliate coupon", async () => {
+            const mockCoupon = {
+                ...aCoupon,
+                id: "75434e84-255b-4314-a278-820df5e76813",
+                affiliate_id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca",
+                token: "CODE",
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/affiliate_coupons/75434e84-255b-4314-a278-820df5e76813")
+                .reply(200, mockCoupon);
+
+            const coupon = await api.getAffiliate_couponsId({
+                params: {id: "75434e84-255b-4314-a278-820df5e76813"},
+            });
+
+            expect(coupon).toBeDefined();
+            expect(coupon.token).toBe("CODE");
+            expect(coupon.affiliate_id).toBe("3b03791a-3fb5-4bd6-8ec3-614c9fd978ca");
+        });
+
+        it("create an affiliate coupon", async () => {
+            const mockNewCoupon = {
+                ...aCoupon,
+                token: "MYCODE",
+                affiliate_id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+            };
+
+            nock("https://api.getrewardful.com")
+                .post("/v1/affiliate_coupons")
+                .reply(201, mockNewCoupon);
+
+            const newCoupon = await api.postAffiliate_coupons({
+                affiliate_id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+                token: "MYCODE",
+            });
+
+            expect(newCoupon).toBeDefined();
+            expect(newCoupon.token).toBe("MYCODE");
+            expect(newCoupon.affiliate_id).toBe("f46a912b-08bc-4332-8771-c857e11ad9dd");
+        });
+
+    });
+
+    describe("affiliate links", () => {
+
+        it("list affiliate links with mocked response", async () => {
+            const mockResponse = {
+                data: [
+                    {
+                        ...aLink,
+                        id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+                        affiliate_id: "aaac9869-4242-4db9-afb1-f3518ef627c5",
+                        token: "luke",
+                    },
+                ],
+                pagination: {
+                    previous_page: null,
+                    current_page: 1,
+                    next_page: null,
+                    count: 1,
+                    limit: 25,
+                    total_pages: 1,
+                    total_count: 1,
+                },
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/affiliate_links")
+                .reply(200, mockResponse);
+
+            const {data} = await api.getAffiliate_links();
+
+            expect(data).toBeDefined();
+            expect(data?.length).toBeGreaterThan(0);
+            expect(data?.[0].token).toBe("luke");
+            expect(data?.[0].affiliate_id).toBe("aaac9869-4242-4db9-afb1-f3518ef627c5");
+        });
+
+        it("get a single affiliate link", async () => {
+            const mockLink = {
+                ...aLink,
+                id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+                affiliate_id: "aaac9869-4242-4db9-afb1-f3518ef627c5",
+                token: "luke",
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/affiliate_links/f46a912b-08bc-4332-8771-c857e11ad9dd")
+                .reply(200, mockLink);
+
+            const link = await api.getAffiliate_linksId({
+                params: { id: "f46a912b-08bc-4332-8771-c857e11ad9dd" },
+            });
+
+            expect(link).toBeDefined();
+            expect(link.token).toBe("luke");
+            expect(link.affiliate_id).toBe("aaac9869-4242-4db9-afb1-f3518ef627c5");
+        });
+
+        it("create an affiliate link", async () => {
+            const mockNewLink = {
+                ...aLink,
+                token: "luke-skywalker",
+                affiliate_id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+            };
+
+            nock("https://api.getrewardful.com")
+                .post("/v1/affiliate_links")
+                .reply(201, mockNewLink);
+
+            const newLink = await api.postAffiliate_links({
+                affiliate_id: "f46a912b-08bc-4332-8771-c857e11ad9dd",
+                token: "luke-skywalker",
+            });
+
+            expect(newLink).toBeDefined();
+            expect(newLink.token).toBe("luke-skywalker");
+            expect(newLink.affiliate_id).toBe("f46a912b-08bc-4332-8771-c857e11ad9dd");
+        });
+
+        it("update an affiliate link", async () => {
+            const updatedLink = {
+                ...aLink,
+                token: "darth-vader",
+                affiliate_id: "aaac9869-4242-4db9-afb1-f3518ef627c5",
+            };
+
+            nock("https://api.getrewardful.com")
+                .put("/v1/affiliate_links/f46a912b-08bc-4332-8771-c857e11ad9dd")
+                .reply(200, updatedLink);
+
+            const link = await api.putAffiliate_linksId(
+                { token: "darth-vader" },
+                { params: { id: "f46a912b-08bc-4332-8771-c857e11ad9dd" } }
+            );
+
+            expect(link).toBeDefined();
+            expect(link.token).toBe("darth-vader");
+            expect(link.affiliate_id).toBe("aaac9869-4242-4db9-afb1-f3518ef627c5");
+        });
+    });
+
+    describe("payouts", () => {
+
+        it("list payouts with mocked response", async () => {
+            const mockResponse = {
+                data: [
+                    {
+                        ...aPayout,
+                        id: "5768bd90-7953-493f-ae6c-6562eb4d7e72",
+                        affiliate_id: "5768bd90-7953-493f-ae6c-6562eb4d7e72",
+
+                        affiliate: {
+                            ...anAffiliate,
+                            id: "5768bd90-7953-493f-ae6c-6562eb4d7e72",
+                        }
+                    },
+                ],
+                pagination: {
+                    previous_page: null,
+                    current_page: 1,
+                    next_page: null,
+                    count: 1,
+                    limit: 25,
+                    total_pages: 1,
+                    total_count: 1,
+                },
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/payouts")
+                .query(true) // Matches any query parameters
+                .reply(200, mockResponse);
+
+            const {data} = await api.getPayouts({
+                queries: {
+                    expand: ["affiliate", "commissions"],
+                    page: 1,
+                    limit: 25,
+                },
+            });
+
+            expect(data).toBeDefined();
+            expect(data?.length).toBeGreaterThan(0);
+            expect(data?.[0].state).toBe("paid");
+            expect(data?.[0].affiliate.id).toBe("5768bd90-7953-493f-ae6c-6562eb4d7e72");
+        });
+
+        it("get a single payout", async () => {
+            const mockPayout = {
+                ...aPayout,
+                id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca",
+                affiliate_id: "5768bd90-7953-493f-ae6c-6562eb4d7e72",
+                currency: "USD",
+                amount: 1470,
+                affiliate: {
+                    ...anAffiliate,
+                    id: "5768bd90-7953-493f-ae6c-6562eb4d7e72",
+                }
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/payouts/3b03791a-3fb5-4bd6-8ec3-614c9fd978ca")
+                .reply(200, mockPayout);
+
+            const payout = await api.getPayoutsId({
+                params: { id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca" },
+            });
+
+            expect(payout).toBeDefined();
+            expect(payout.currency).toBe("USD");
+            expect(payout.amount).toBe(1470);
+            expect(payout?.affiliate?.id).toBe("5768bd90-7953-493f-ae6c-6562eb4d7e72");
+        });
+
+        it("mark payout as paid", async () => {
+            const mockPayoutResponse: RewardfulPayout = {
+                ...aPayout,
+                id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca",
+                state: "processing",
+                commissions: [
+                    {
+                        ...aCommissionItem,
+                        id: "3a4a775c-b660-4d7f-a733-6f259a2646a7",
+                        paid_at: "2022-11-21T11:48:51.067Z",
+                    },
+                ],
+            };
+
+            nock("https://api.getrewardful.com")
+                .put("/v1/payouts/3b03791a-3fb5-4bd6-8ec3-614c9fd978ca/pay")
+                .reply(200, mockPayoutResponse);
+
+            const payout = await api.putPayoutsIdpay(
+                undefined,
+                { params: { id: "3b03791a-3fb5-4bd6-8ec3-614c9fd978ca" } }
+            );
+
+            expect(payout).toBeDefined();
+            expect(payout.state).toBe("processing");
+            expect(payout?.commissions?.[0].paid_at).toBe("2022-11-21T11:48:51.067Z");
+        });
+
+    });
+
+    describe("referrals", () => {
+
+        it("list referrals with mocked response", async () => {
+            const mockResponse = {
+                data: [
+                    {
+                        ...aReferral,
+                        id: "e523da29-6157-4aac-b4b5-05b3b7b14fb6",
+
+                        customer: {
+                            ...aCustumer,
+                            name: "Fred Durst",
+
+                        }
+                    },
+                ],
+                pagination: {
+                    previous_page: null,
+                    current_page: 1,
+                    next_page: null,
+                    count: 1,
+                    limit: 25,
+                    total_pages: 1,
+                    total_count: 1,
+                },
+            };
+
+            nock("https://api.getrewardful.com")
+                .get("/v1/referrals")
+                .query(true) // Matches any query parameters
+                .reply(200, mockResponse);
+
+            const {data} = await api.getReferrals({
+                queries: {
+                    expand: ["affiliate"],
+                    page: 1,
+                    limit: 25,
+                },
+            });
+
+            expect(data).toBeDefined();
+            expect(data?.length).toBeGreaterThan(0);
+            expect(data?.[0].conversion_state).toBe("conversion");
+            expect(data?.[0].customer.name).toBe("Fred Durst");
+        });
+
     });
 });

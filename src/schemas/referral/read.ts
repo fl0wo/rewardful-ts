@@ -83,3 +83,5 @@ export const addListReferralsSchemaToRegistry = (registry: OpenAPIRegistry) => {
         },
     });
 };
+
+

@@ -22,7 +22,7 @@ export const anAffiliate:RewardfulAffiliate = {
     conversions: 0
 }
 
-export const aCostumer:RewardfulCustomer = {
+export const aCustumer:RewardfulCustomer = {
     id: anUUID,
     email: anEmail,
     name: "",
@@ -45,7 +45,7 @@ export const aCoupon:RewardfulCoupon = {
     leads: 0,
     conversions: 0,
     external_id: anUUID,
-    affiliate_id: ""
+    affiliate_id: anUUID
 }
 
 export const aReferral:RewardfulReferral = {
@@ -59,7 +59,11 @@ export const aReferral:RewardfulReferral = {
     },
     visits: 0,
     customer: {
-        ...aCostumer,
+        ...aCustumer,
+        name: "Fred Durst",
+        email: anEmail,
+        platform: "stripe"
+
     },
     affiliate: {
         ...anAffiliate,
