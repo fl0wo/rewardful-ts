@@ -130,3 +130,8 @@ export const CommissionItemSchema = z.object({
         example: 1470,
     }),
 }).openapi("CommissionItem");
+
+
+export type RewardfulCommission = z.infer<typeof CommissionSchema>;
+export type RewardfulCommissionItem = z.infer<typeof CommissionItemSchema>;
+export type RewardfulSale = z.infer<typeof SaleSchema>;

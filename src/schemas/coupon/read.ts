@@ -41,7 +41,7 @@ export const addListAndGetAffiliateCouponsSchemaToRegistry = (registry: OpenAPIR
                 description: "Object containing pagination info and an array of AffiliateCoupon objects.",
                 content: {
                     "application/json": {
-                        schema: ListAffiliateCouponsResponseSchema,
+                        schema: ListAffiliateCouponsResponseSchema.partial(),
                     },
                 },
             },
@@ -71,7 +71,7 @@ export const addListAndGetAffiliateCouponsSchemaToRegistry = (registry: OpenAPIR
                 description: "AffiliateCoupon object for the specified ID.",
                 content: {
                     "application/json": {
-                        schema: AffiliateCouponSchema,
+                        schema: AffiliateCouponSchema.partial(),
                     },
                 },
             },

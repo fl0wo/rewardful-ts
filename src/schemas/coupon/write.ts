@@ -45,7 +45,7 @@ export const addCreateAffiliateCouponSchemaToRegistry = (registry: OpenAPIRegist
                 description: "Affiliate coupon created successfully.",
                 content: {
                     "application/json": {
-                        schema: AffiliateCouponSchema,
+                        schema: AffiliateCouponSchema.partial(),
                     },
                 },
             },

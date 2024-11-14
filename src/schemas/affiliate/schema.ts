@@ -39,3 +39,8 @@ export const AffiliateSchema = z.object({
     links: z.array(LinkSchema).optional(),
     coupon: CouponSchema.nullable().optional()
 }).openapi('Affiliate');
+
+
+export type RewardfulAffiliate = z.infer<typeof AffiliateSchema>;
+export type RewardfulLink = z.infer<typeof LinkSchema>;
+export type RewardfulCoupon = z.infer<typeof CouponSchema>;

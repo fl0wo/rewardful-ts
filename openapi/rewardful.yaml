@@ -1019,9 +1019,6 @@ components:
           items:
             $ref: "#/components/schemas/Affiliate"
           description: List of affiliates
-      required:
-        - pagination
-        - data
     CreateAffiliateRequest:
       type: object
       properties:
@@ -1113,9 +1110,6 @@ components:
           $ref: "#/components/schemas/SSO"
         affiliate:
           $ref: "#/components/schemas/AffiliateBasic"
-      required:
-        - sso
-        - affiliate
     ListAffiliateLinksResponse:
       type: object
       properties:
@@ -1150,9 +1144,6 @@ components:
           items:
             $ref: "#/components/schemas/AffiliateLink"
           description: List of affiliate links
-      required:
-        - pagination
-        - data
     CreateAffiliateLinkRequest:
       type: object
       properties:
@@ -1209,9 +1200,6 @@ components:
           items:
             $ref: "#/components/schemas/AffiliateCoupon"
           description: List of affiliate coupons
-      required:
-        - pagination
-        - data
     CreateAffiliateCouponRequest:
       type: object
       properties:
@@ -1261,9 +1249,6 @@ components:
           items:
             $ref: "#/components/schemas/Referral"
           description: List of referrals
-      required:
-        - pagination
-        - data
     Commission:
       type: object
       properties:
@@ -1349,9 +1334,6 @@ components:
           items:
             $ref: "#/components/schemas/Commission"
           description: List of commissions
-      required:
-        - pagination
-        - data
     Payout:
       type: object
       properties:
@@ -1402,17 +1384,6 @@ components:
           items:
             $ref: "#/components/schemas/CommissionItem"
           description: List of commissions included in the payout.
-      required:
-        - id
-        - currency
-        - paid_at
-        - state
-        - paid_by_id
-        - created_at
-        - updated_at
-        - amount
-        - affiliate
-        - commissions
     UpdateCommissionRequest:
       type: object
       properties:
@@ -1446,10 +1417,6 @@ components:
           type: boolean
           description: Indicates if the commission was successfully deleted.
           example: true
-      required:
-        - object
-        - id
-        - deleted
     ListPayoutsResponse:
       type: object
       properties:
@@ -1482,11 +1449,20 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Payout"
+            allOf:
+              - $ref: "#/components/schemas/Payout"
+              - required:
+                  - id
+                  - currency
+                  - paid_at
+                  - state
+                  - paid_by_id
+                  - created_at
+                  - updated_at
+                  - amount
+                  - affiliate
+                  - commissions
           description: List of payouts
-      required:
-        - pagination
-        - data
     ErrorResponse:
       type: object
       properties:
@@ -1530,9 +1506,6 @@ components:
           items:
             $ref: "#/components/schemas/Campaign"
           description: List of campaigns
-      required:
-        - pagination
-        - data
     CreateCampaignRequest:
       type: object
       properties:

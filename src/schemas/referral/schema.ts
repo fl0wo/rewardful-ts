@@ -74,3 +74,7 @@ export const ReferralSchema = z.object({
         example: "cus_ABC123",
     }),
 }).openapi("Referral");
+
+
+export type RewardfulReferral = z.infer<typeof ReferralSchema>;
+export type RewardfulCustomer = z.infer<typeof CustomerSchema>;

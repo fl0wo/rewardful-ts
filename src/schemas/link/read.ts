@@ -41,7 +41,7 @@ export const addListAffiliateLinksSchemaToRegistry = (registry: OpenAPIRegistry)
                 description: "Object containing pagination info and an array of AffiliateLink objects.",
                 content: {
                     "application/json": {
-                        schema: ListAffiliateLinksResponseSchema,
+                        schema: ListAffiliateLinksResponseSchema.partial(),
                     },
                 },
             },
@@ -70,7 +70,7 @@ export const addListAffiliateLinksSchemaToRegistry = (registry: OpenAPIRegistry)
                 description: "AffiliateLink object for the specified ID.",
                 content: {
                     "application/json": {
-                        schema: AffiliateLinkSchema,
+                        schema: AffiliateLinkSchema.partial(),
                     },
                 },
             },

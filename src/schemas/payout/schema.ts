@@ -44,3 +44,6 @@ export const PayoutSchema = z.object({
         description: "List of commissions included in the payout.",
     }),
 }).openapi("Payout");
+
+
+export type RewardfulPayout = z.infer<typeof PayoutSchema>;

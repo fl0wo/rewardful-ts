@@ -148,10 +148,12 @@ const Affiliate = z.object({
   links: z.array(Link).optional(),
   coupon: Coupon.nullish(),
 });
-const ListAllAffiliatesResponse = z.object({
-  pagination: Pagination,
-  data: z.array(Affiliate).describe("List of affiliates"),
-});
+const ListAllAffiliatesResponse = z
+  .object({
+    pagination: Pagination,
+    data: z.array(Affiliate).describe("List of affiliates"),
+  })
+  .partial();
 const CreateAffiliateRequest = z.object({
   first_name: z.string().describe("First name of the affiliate"),
   last_name: z.string().describe("Last name of the affiliate"),
@@ -190,7 +192,9 @@ const AffiliateBasic = z.object({
   id: z.string().uuid().describe("Affiliate ID"),
   email: z.string().email().describe("Email address of the affiliate"),
 });
-const MagicLinkResponse = z.object({ sso: SSO, affiliate: AffiliateBasic });
+const MagicLinkResponse = z
+  .object({ sso: SSO, affiliate: AffiliateBasic })
+  .partial();
 const AffiliateLink = z.object({
   id: z
     .string()
@@ -219,22 +223,24 @@ const AffiliateLink = z.object({
     .uuid()
     .describe("The ID of the affiliate associated with this link."),
 });
-const ListAffiliateLinksResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(AffiliateLink).describe("List of affiliate links"),
-});
+const ListAffiliateLinksResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z.array(AffiliateLink).describe("List of affiliate links"),
+  })
+  .partial();
 const CreateAffiliateLinkRequest = z.object({
   affiliate_id: z
     .string()
@@ -277,22 +283,24 @@ const AffiliateCoupon = z.object({
     .uuid()
     .describe("The ID of the affiliate associated with this coupon."),
 });
-const ListAffiliateCouponsResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(AffiliateCoupon).describe("List of affiliate coupons"),
-});
+const ListAffiliateCouponsResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z.array(AffiliateCoupon).describe("List of affiliate coupons"),
+  })
+  .partial();
 const CreateAffiliateCouponRequest = z.object({
   affiliate_id: z
     .string()
@@ -363,22 +371,24 @@ const Referral = z.object({
     .describe("The Stripe customer ID associated with the referral.")
     .nullable(),
 });
-const ListReferralsResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(Referral).describe("List of referrals"),
-});
+const ListReferralsResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z.array(Referral).describe("List of referrals"),
+  })
+  .partial();
 const Sale = z.object({
   id: z.string().uuid().describe("The unique identifier for the sale."),
   currency: z.string().describe("The currency used for the sale."),
@@ -445,22 +455,24 @@ const Commission = z.object({
   campaign: Campaign.nullable(),
   sale: Sale,
 });
-const ListCommissionsResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(Commission).describe("List of commissions"),
-});
+const ListCommissionsResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z.array(Commission).describe("List of commissions"),
+  })
+  .partial();
 const UpdateCommissionRequest = z
   .object({
     paid_at: z
@@ -477,16 +489,18 @@ const UpdateCommissionRequest = z
       .nullable(),
   })
   .partial();
-const DeleteCommissionResponse = z.object({
-  object: z.literal("commission").describe("Indicates the object type."),
-  id: z
-    .string()
-    .uuid()
-    .describe("The unique identifier of the deleted commission."),
-  deleted: z
-    .boolean()
-    .describe("Indicates if the commission was successfully deleted."),
-});
+const DeleteCommissionResponse = z
+  .object({
+    object: z.literal("commission").describe("Indicates the object type."),
+    id: z
+      .string()
+      .uuid()
+      .describe("The unique identifier of the deleted commission."),
+    deleted: z
+      .boolean()
+      .describe("Indicates if the commission was successfully deleted."),
+  })
+  .partial();
 const CommissionItem = z.object({
   id: z.string().uuid().describe("The unique identifier of the commission."),
   currency: z.string().describe("The currency of the commission amount."),
@@ -514,73 +528,122 @@ const CommissionItem = z.object({
     .describe("Timestamp when the commission was last updated."),
   amount: z.number().int().describe("The amount of the commission in cents."),
 });
-const Payout = z.object({
-  id: z.string().uuid().describe("The unique identifier of the payout."),
-  currency: z.string().describe("The currency of the payout."),
-  paid_at: z
-    .string()
-    .datetime({ offset: true })
-    .describe("Timestamp when the payout was marked as paid.")
-    .nullable(),
-  state: z
-    .enum(["paid", "processing", "completed", "failed"])
-    .describe("The current state of the payout."),
-  paid_by_id: z
-    .string()
-    .uuid()
-    .describe(
-      "The ID of the user who marked the payout as paid, if applicable."
-    )
-    .nullable(),
-  created_at: z
-    .string()
-    .datetime({ offset: true })
-    .describe("Timestamp when the payout was created."),
-  updated_at: z
-    .string()
-    .datetime({ offset: true })
-    .describe("Timestamp when the payout was last updated."),
-  amount: z.number().int().describe("The amount of the payout in cents."),
-  affiliate: Affiliate,
-  commissions: z
-    .array(CommissionItem)
-    .describe("List of commissions included in the payout."),
-});
-const ListPayoutsResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(Payout).describe("List of payouts"),
-});
+const Payout = z
+  .object({
+    id: z.string().uuid().describe("The unique identifier of the payout."),
+    currency: z.string().describe("The currency of the payout."),
+    paid_at: z
+      .string()
+      .datetime({ offset: true })
+      .describe("Timestamp when the payout was marked as paid.")
+      .nullable(),
+    state: z
+      .enum(["paid", "processing", "completed", "failed"])
+      .describe("The current state of the payout."),
+    paid_by_id: z
+      .string()
+      .uuid()
+      .describe(
+        "The ID of the user who marked the payout as paid, if applicable."
+      )
+      .nullable(),
+    created_at: z
+      .string()
+      .datetime({ offset: true })
+      .describe("Timestamp when the payout was created."),
+    updated_at: z
+      .string()
+      .datetime({ offset: true })
+      .describe("Timestamp when the payout was last updated."),
+    amount: z.number().int().describe("The amount of the payout in cents."),
+    affiliate: Affiliate,
+    commissions: z
+      .array(CommissionItem)
+      .describe("List of commissions included in the payout."),
+  })
+  .partial();
+const ListPayoutsResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z
+      .array(
+        Payout.and(
+          z.object({
+            id: z
+              .string()
+              .uuid()
+              .describe("The unique identifier of the payout."),
+            currency: z.string().describe("The currency of the payout."),
+            paid_at: z
+              .string()
+              .datetime({ offset: true })
+              .describe("Timestamp when the payout was marked as paid.")
+              .nullable(),
+            state: z
+              .enum(["paid", "processing", "completed", "failed"])
+              .describe("The current state of the payout."),
+            paid_by_id: z
+              .string()
+              .uuid()
+              .describe(
+                "The ID of the user who marked the payout as paid, if applicable."
+              )
+              .nullable(),
+            created_at: z
+              .string()
+              .datetime({ offset: true })
+              .describe("Timestamp when the payout was created."),
+            updated_at: z
+              .string()
+              .datetime({ offset: true })
+              .describe("Timestamp when the payout was last updated."),
+            amount: z
+              .number()
+              .int()
+              .describe("The amount of the payout in cents."),
+            affiliate: Affiliate,
+            commissions: z
+              .array(CommissionItem)
+              .describe("List of commissions included in the payout."),
+          })
+        )
+      )
+      .describe("List of payouts"),
+  })
+  .partial();
 const ErrorResponse = z.object({
   error: z.string().describe("Description of the error."),
 });
-const ListCampaignsResponse = z.object({
-  pagination: Pagination.and(
-    z
-      .object({
-        previous_page: z.number().nullable(),
-        current_page: z.number(),
-        next_page: z.number().nullable(),
-        count: z.number(),
-        limit: z.number(),
-        total_pages: z.number(),
-        total_count: z.number(),
-      })
-      .partial()
-  ),
-  data: z.array(Campaign).describe("List of campaigns"),
-});
+const ListCampaignsResponse = z
+  .object({
+    pagination: Pagination.and(
+      z
+        .object({
+          previous_page: z.number().nullable(),
+          current_page: z.number(),
+          next_page: z.number().nullable(),
+          count: z.number(),
+          limit: z.number(),
+          total_pages: z.number(),
+          total_count: z.number(),
+        })
+        .partial()
+    ),
+    data: z.array(Campaign).describe("List of campaigns"),
+  })
+  .partial();
 const CreateCampaignRequest = z.object({
   name: z.string().describe("The name of the campaign."),
   url: z.string().url().describe("The URL associated with the campaign."),

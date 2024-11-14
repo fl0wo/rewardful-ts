@@ -73,7 +73,7 @@ export const addListCommissionsSchemaToRegistry = (registry: OpenAPIRegistry) =>
                 description: "Object containing pagination info and an array of Commission objects.",
                 content: {
                     "application/json": {
-                        schema: ListCommissionsResponseSchema,
+                        schema: ListCommissionsResponseSchema.partial(),
                     },
                 },
             },
@@ -112,7 +112,7 @@ export const addGetCommissionSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Commission object for the specified ID.",
                 content: {
                     "application/json": {
-                        schema: CommissionSchema,
+                        schema: CommissionSchema.partial(),
                     },
                 },
             },

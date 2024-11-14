@@ -61,7 +61,7 @@ export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
                 description: "The newly created Campaign object.",
                 content: {
                     "application/json": {
-                        schema: CampaignSchema,
+                        schema: CampaignSchema.partial(),
                     },
                 },
             },
@@ -142,7 +142,7 @@ export const addUpdateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
                 description: "The updated Campaign object.",
                 content: {
                     "application/json": {
-                        schema: CampaignSchema,
+                        schema: CampaignSchema.partial(),
                     },
                 },
             },

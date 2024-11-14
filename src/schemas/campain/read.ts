@@ -42,7 +42,7 @@ export const addListCampaignsSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Object containing pagination info and an array of Campaign objects.",
                 content: {
                     "application/json": {
-                        schema: ListCampaignsResponseSchema,
+                        schema: ListCampaignsResponseSchema.partial(),
                     },
                 },
             },
@@ -99,7 +99,7 @@ export const addGetCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Campaign object for the specified ID.",
                 content: {
                     "application/json": {
-                        schema: CampaignSchema,
+                        schema: CampaignSchema.partial(),
                     },
                 },
             },

@@ -34,7 +34,7 @@ export const addMarkCommissionAsPaidSchemaToRegistry = (registry: OpenAPIRegistr
                 description: "Payout object with updated state and paid commissions.",
                 content: {
                     "application/json": {
-                        schema: PayoutSchema,
+                        schema: PayoutSchema.partial(),
                     },
                 },
             },
@@ -95,7 +95,7 @@ export const addUpdateCommissionSchemaToRegistry = (registry: OpenAPIRegistry) =
                 description: "Commission object with updated status.",
                 content: {
                     "application/json": {
-                        schema: CommissionSchema,
+                        schema: CommissionSchema.partial(),
                     },
                 },
             },

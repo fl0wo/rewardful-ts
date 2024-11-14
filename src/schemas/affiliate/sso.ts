@@ -59,7 +59,7 @@ export const addMagicLinkSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: 'SSO link and affiliate information successfully generated.',
                 content: {
                     'application/json': {
-                        schema: MagicLinkResponseSchema,
+                        schema: MagicLinkResponseSchema.partial(),
                     },
                 },
             },
