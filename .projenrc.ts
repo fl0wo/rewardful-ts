@@ -42,6 +42,12 @@ const project = new typescript.TypeScriptProject({
         'secret.ts',
     ],
 
+    // tsconfig: {
+    //     compilerOptions: {
+    //         declaration: false,
+    //     }
+    // },
+
     keywords: [
         'rewardful', 'affiliate', 'api', 'client', 'typescript', 'nodejs', 'sdk',
         'zod', 'openapi', 'axios', 'http', 'request', 'browser'
@@ -57,7 +63,8 @@ const project = new typescript.TypeScriptProject({
         'openapi-zod-client',
         '@apidevtools/swagger-parser',
         'openapi3-ts',
-        'prettier'
+        'prettier',
+        'nock'
     ]
 });
 

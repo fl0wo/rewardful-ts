@@ -10,9 +10,12 @@ const main = async () => {
         options: {
             apiClientName: "RewardfulApiClient",
             baseUrl: "https://api.getrewardful.com/v1",
-            withAlias: true,
             withDescription: true,
-            withDocs: true,
+            withDocs: false,
+
+            withAlias: true,
+            shouldExportAllSchemas: true,
+            additionalPropertiesDefaultValue: false,
         }
     });
 

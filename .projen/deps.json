@@ -36,6 +36,10 @@
       "type": "build"
     },
     {
+      "name": "nock",
+      "type": "build"
+    },
+    {
       "name": "openapi-zod-client",
       "type": "build"
     },
