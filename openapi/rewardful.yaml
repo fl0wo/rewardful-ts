@@ -219,10 +219,39 @@ components:
 paths:
   /affiliates:
     get:
-      description: Retrieve a list of all affiliates with pagination
-      summary: List all affiliates
+      description: Retrieve a list of all affiliates with pagination, optional
+        expansion, and filtering by campaign or email.
+      summary: List all affiliates with filtering
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - campaign
+              - links
+              - commission_stats
+            description: Fields that can be expanded in the response.
+            example: campaign
+          required: false
+          name: expand
+          in: query
+        - schema:
+            type: string
+            format: uuid
+            description: Filter by campaign ID.
+            example: c3482343-8680-40c5-af9a-9efa119713b5
+          required: false
+          name: campaign_id
+          in: query
+        - schema:
+            type: string
+            format: email
+            description: Filter by email address.
+            example: joe@example.com
+          required: false
+          name: email
+          in: query
       responses:
         "200":
           description: Object containing pagination info and array of Affiliate objects.
@@ -232,3 +261,28 @@ paths:
                 $ref: "#/components/schemas/ListAllAffiliatesResponse"
         "401":
           description: Unauthorized - Invalid API key or permissions
+  /affiliates/{id}:
+    get:
+      description: Retrieve a single affiliate by its unique ID
+      summary: Get an affiliate
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+            example: d0ed8392-8880-4f39-8715-60230f9eceab
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Affiliate object for the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Affiliate"
+        "401":
+          description: Unauthorized - Invalid API key or permissions
+        "404":
+          description: Affiliate not found

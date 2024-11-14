@@ -42,6 +42,11 @@ const project = new typescript.TypeScriptProject({
         'secret.ts',
     ],
 
+    keywords: [
+        'rewardful', 'affiliate', 'api', 'client', 'typescript', 'nodejs', 'sdk',
+        'zod', 'openapi', 'axios', 'http', 'request', 'browser'
+    ],
+
     deps: [
         '@apidevtools/swagger-parser',
         'zod',

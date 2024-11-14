@@ -81,13 +81,57 @@ const endpoints = makeApi([
     method: "get",
     path: "/affiliates",
     alias: "getAffiliates",
-    description: `Retrieve a list of all affiliates with pagination`,
+    description: `Retrieve a list of all affiliates with pagination, optional expansion, and filtering by campaign or email.`,
     requestFormat: "json",
+    parameters: [
+      {
+        name: "expand",
+        type: "Query",
+        schema: z.enum(["campaign", "links", "commission_stats"]).optional(),
+      },
+      {
+        name: "campaign_id",
+        type: "Query",
+        schema: z.string().uuid().optional(),
+      },
+      {
+        name: "email",
+        type: "Query",
+        schema: z.string().email().optional(),
+      },
+    ],
     response: ListAllAffiliatesResponse,
     errors: [
       {
         status: 401,
         description: `Unauthorized - Invalid API key or permissions`,
+        schema: z.void(),
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/affiliates/:id",
+    alias: "getAffiliatesId",
+    description: `Retrieve a single affiliate by its unique ID`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "id",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: Affiliate,
+    errors: [
+      {
+        status: 401,
+        description: `Unauthorized - Invalid API key or permissions`,
+        schema: z.void(),
+      },
+      {
+        status: 404,
+        description: `Affiliate not found`,
         schema: z.void(),
       },
     ],

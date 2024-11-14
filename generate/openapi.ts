@@ -9,7 +9,7 @@ import {
 import { z } from 'zod';
 import * as yaml from 'yaml';
 import * as fs from 'fs';
-import {addAffiliateSchemaToRegistry} from "../src/schemas/affiliate";
+import {addAffiliateSchemaToRegistry} from "../src/schemas/affiliate/read";
 
 extendZodWithOpenApi(z);
 
