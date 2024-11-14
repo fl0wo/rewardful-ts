@@ -5,6 +5,7 @@ import {RewardfulCommission} from "../src/schemas/commission/schema";
 import {RewardfulPayout} from "../src/schemas/payout/schema";
 
 describe("Mocked Affiliate Tests", () => {
+
     const api = createRewardfulClient("mock-secret");
 
     describe("affiliates", () => {
@@ -363,7 +364,6 @@ describe("Mocked Affiliate Tests", () => {
             expect(campaign?.updated_at).toBe("2023-02-10T14:00:00Z");
         });
     });
-
 
     describe("commissions", () => {
 

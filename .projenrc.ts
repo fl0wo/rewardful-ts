@@ -37,6 +37,7 @@ const project = new typescript.TypeScriptProject({
 
     gitignore: [
         'secret.ts',
+        '.idea'
     ],
 
     keywords: [
