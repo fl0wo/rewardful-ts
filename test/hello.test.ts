@@ -1,5 +1,18 @@
-import { RewardfulClient } from '../src';
+import {createRewardfulClient} from "../src";
+// @ts-ignore
+import {rewardfullSecret} from "../secret";
 
-test('hello', () => {
-  expect(new RewardfulClient().sayHello()).toBe('hello, world!');
+describe('Live tests', () => {
+
+    it('should get affiliates', async () => {
+        const api = createRewardfulClient(
+            rewardfullSecret
+        );
+        const affiliates = await api.getAffiliates();
+
+        console.log("My affiliates:", affiliates.data);
+
+        expect(affiliates.data).toBeDefined();
+    });
+
 });

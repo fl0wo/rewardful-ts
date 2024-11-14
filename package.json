@@ -30,16 +30,26 @@
     "organization": false
   },
   "devDependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@asteasolutions/zod-to-openapi": "^7.2.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
     "commit-and-tag-version": "^12",
     "constructs": "^10.0.0",
     "jest": "^29.7.0",
     "jest-junit": "^15",
+    "openapi-zod-client": "^1.18.2",
+    "openapi3-ts": "^4.4.0",
+    "prettier": "^2.8.8",
     "projen": "^0.90.2",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@zodios/core": "^10.9.6",
+    "zod": "^3.23.8"
   },
   "pnpm": {},
   "engines": {

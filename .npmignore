@@ -20,6 +20,8 @@ dist
 /.idea/
 /.projenrc.js
 tsconfig.tsbuildinfo
+secret.ts
+secret.example.ts
 /.gitattributes
 /.projenrc.ts
 /projenrc

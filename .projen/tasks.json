@@ -214,13 +214,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,jest,projen,ts-jest,ts-node,typescript"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@apidevtools/swagger-parser,@asteasolutions/zod-to-openapi,@types/jest,@types/node,jest,openapi-zod-client,openapi3-ts,prettier,projen,ts-jest,ts-node,typescript,@zodios/core,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/jest @types/node commit-and-tag-version constructs jest jest-junit projen ts-jest ts-node typescript"
+          "exec": "pnpm update @apidevtools/swagger-parser @asteasolutions/zod-to-openapi @types/jest @types/node commit-and-tag-version constructs jest jest-junit openapi-zod-client openapi3-ts prettier projen ts-jest ts-node typescript @zodios/core zod"
         },
         {
           "exec": "npx projen"

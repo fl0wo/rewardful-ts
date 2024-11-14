@@ -1,0 +1,234 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Rewardful API
+  description: Rewardful API Documentation
+servers:
+  - url: v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Campaign:
+      type: object
+      nullable: true
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: a638ebe4-291d-47cd-a1dc-1519f9331bbd
+        created_at:
+          type: string
+          format: date-time
+          example: 2019-04-27T18:13:13.123Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2019-05-05T20:58:24.200Z
+        name:
+          type: string
+          example: Best Friends of Kyle
+      required:
+        - id
+        - created_at
+        - updated_at
+        - name
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: eb844960-6c42-4a3b-8009-f588a42d8506
+        url:
+          type: string
+          format: uri
+          example: http://www.example.com/?via=adam
+        token:
+          type: string
+          example: adam
+        visitors:
+          type: integer
+          example: 100
+        leads:
+          type: integer
+          example: 42
+        conversions:
+          type: integer
+          example: 18
+      required:
+        - id
+        - url
+        - token
+        - visitors
+        - leads
+        - conversions
+    Coupon:
+      type: object
+      nullable: true
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 75434e84-255b-4314-a278-820df5e76813
+        external_id:
+          type: string
+          example: promo_1a2b3c
+        token:
+          type: string
+          example: CODE
+        leads:
+          type: integer
+          example: 0
+        conversions:
+          type: integer
+          example: 0
+        affiliate_id:
+          type: string
+          format: uuid
+          example: 95d48f70-f1d4-42d9-b929-21996b6d9eb4
+      required:
+        - id
+        - external_id
+        - token
+        - leads
+        - conversions
+        - affiliate_id
+    Affiliate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d0ed8392-8880-4f39-8715-60230f9eceab
+        created_at:
+          type: string
+          format: date-time
+          example: 2019-05-09T16:18:59.920Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2019-05-09T16:25:42.614Z
+        first_name:
+          type: string
+          example: Adam
+        last_name:
+          type: string
+          example: Jones
+        email:
+          type: string
+          format: email
+          example: adam.jones@example.com
+        paypal_email:
+          type: string
+          nullable: true
+          format: email
+        state:
+          type: string
+          enum:
+            - active
+            - inactive
+          example: active
+        stripe_customer_id:
+          type: string
+          nullable: true
+          example: cus_ABCDEF123456
+        stripe_account_id:
+          type: string
+          nullable: true
+          example: acct_ABCDEF123456
+        visitors:
+          type: integer
+          example: 100
+        leads:
+          type: integer
+          example: 42
+        conversions:
+          type: integer
+          example: 18
+        campaign:
+          $ref: "#/components/schemas/Campaign"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/Link"
+        coupon:
+          $ref: "#/components/schemas/Coupon"
+      required:
+        - id
+        - created_at
+        - updated_at
+        - first_name
+        - last_name
+        - email
+        - paypal_email
+        - state
+        - visitors
+        - leads
+        - conversions
+    Pagination:
+      type: object
+      properties:
+        previous_page:
+          type: number
+          nullable: true
+        current_page:
+          type: number
+          example: 1
+        next_page:
+          type: number
+          nullable: true
+          example: 2
+        count:
+          type: number
+          example: 25
+        limit:
+          type: number
+          example: 25
+        total_pages:
+          type: number
+          example: 141
+        total_count:
+          type: number
+          example: 3525
+      required:
+        - previous_page
+        - current_page
+        - next_page
+        - count
+        - limit
+        - total_pages
+        - total_count
+    ListAllAffiliatesResponse:
+      type: object
+      properties:
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Affiliate"
+          description: List of affiliates
+      required:
+        - pagination
+        - data
+  parameters: {}
+paths:
+  /affiliates:
+    get:
+      description: Retrieve a list of all affiliates with pagination
+      summary: List all affiliates
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Object containing pagination info and array of Affiliate objects.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListAllAffiliatesResponse"
+        "401":
+          description: Unauthorized - Invalid API key or permissions
