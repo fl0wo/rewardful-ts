@@ -215,6 +215,58 @@ components:
       required:
         - pagination
         - data
+    CreateAffiliateRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: First name of the affiliate
+          example: James
+        last_name:
+          type: string
+          description: Last name of the affiliate
+          example: Bond
+        email:
+          type: string
+          format: email
+          description: Email address of the affiliate
+          example: jb007@mi6.co.uk
+        token:
+          type: string
+          description: Unique identifier or token for the affiliate
+          example: jb007
+        stripe_customer_id:
+          type: string
+          description: Stripe customer ID associated with the affiliate
+          example: cus_ABC123
+      required:
+        - first_name
+        - last_name
+        - email
+    UpdateAffiliateRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: First name of the affiliate
+          example: Jamie
+        last_name:
+          type: string
+          description: Last name of the affiliate
+          example: Bond
+        email:
+          type: string
+          format: email
+          description: Email address of the affiliate
+          example: james.bond@mi6.co.uk
+        token:
+          type: string
+          description: Unique identifier or token for the affiliate
+          example: jb007
+        stripe_customer_id:
+          type: string
+          description: Stripe customer ID associated with the affiliate
+          example: cus_ABC123
   parameters: {}
 paths:
   /affiliates:
@@ -261,6 +313,27 @@ paths:
                 $ref: "#/components/schemas/ListAllAffiliatesResponse"
         "401":
           description: Unauthorized - Invalid API key or permissions
+    post:
+      description: Create a new affiliate in Rewardful
+      summary: Create an affiliate
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/CreateAffiliateRequest"
+      responses:
+        "201":
+          description: Affiliate created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Affiliate"
+        "400":
+          description: Bad Request - Invalid input data
+        "401":
+          description: Unauthorized - Invalid API key or permissions
   /affiliates/{id}:
     get:
       description: Retrieve a single affiliate by its unique ID
@@ -282,6 +355,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Affiliate"
+        "401":
+          description: Unauthorized - Invalid API key or permissions
+        "404":
+          description: Affiliate not found
+    put:
+      description: Update an existing affiliate in Rewardful
+      summary: Update an affiliate
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+            example: d0ed8392-8880-4f39-8715-60230f9eceab
+          required: true
+          name: id
+          in: path
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UpdateAffiliateRequest"
+      responses:
+        "200":
+          description: Affiliate updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Affiliate"
+        "400":
+          description: Bad Request - Invalid input data
         "401":
           description: Unauthorized - Invalid API key or permissions
         "404":

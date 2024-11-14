@@ -9,15 +9,20 @@ import {
 import { z } from 'zod';
 import * as yaml from 'yaml';
 import * as fs from 'fs';
-import {addAffiliateSchemaToRegistry} from "../src/schemas/affiliate/read";
+import {readMethodsForAffiliates} from "../src/schemas/affiliate/read";
+import {AffiliateSchema} from "../src/schemas/affiliate/schema";
+import {writeMethodsForAffiliates} from "../src/schemas/affiliate/write";
 
 extendZodWithOpenApi(z);
 
-const registry = new OpenAPIRegistry();
-
-addAffiliateSchemaToRegistry(registry);
-
 function getOpenApiDocumentation() {
+    const registry = new OpenAPIRegistry();
+
+    registry.register('Affiliate', AffiliateSchema);
+
+    readMethodsForAffiliates(registry);
+    writeMethodsForAffiliates(registry);
+
     const generator = new OpenApiGeneratorV3(registry.definitions);
 
     return generator.generateDocument({

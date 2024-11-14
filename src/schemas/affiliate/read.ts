@@ -3,10 +3,7 @@ import {extendZodWithOpenApi, OpenAPIRegistry} from '@asteasolutions/zod-to-open
 import {AffiliateSchema} from "./schema";
 extendZodWithOpenApi(z);
 
-export const addAffiliateSchemaToRegistry = (registry:OpenAPIRegistry) => {
-
-    registry.register('Affiliate', AffiliateSchema);
-
+export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
     // Define the bearer authentication scheme
     const bearerAuth = registry.registerComponent('securitySchemes', 'bearerAuth', {
         type: 'http',

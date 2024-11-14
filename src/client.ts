@@ -66,6 +66,33 @@ const ListAllAffiliatesResponse = z
     data: z.array(Affiliate).describe("List of affiliates"),
   })
   .passthrough();
+const CreateAffiliateRequest = z
+  .object({
+    first_name: z.string().describe("First name of the affiliate"),
+    last_name: z.string().describe("Last name of the affiliate"),
+    email: z.string().email().describe("Email address of the affiliate"),
+    token: z
+      .string()
+      .describe("Unique identifier or token for the affiliate")
+      .optional(),
+    stripe_customer_id: z
+      .string()
+      .describe("Stripe customer ID associated with the affiliate")
+      .optional(),
+  })
+  .passthrough();
+const UpdateAffiliateRequest = z
+  .object({
+    first_name: z.string().describe("First name of the affiliate"),
+    last_name: z.string().describe("Last name of the affiliate"),
+    email: z.string().email().describe("Email address of the affiliate"),
+    token: z.string().describe("Unique identifier or token for the affiliate"),
+    stripe_customer_id: z
+      .string()
+      .describe("Stripe customer ID associated with the affiliate"),
+  })
+  .partial()
+  .passthrough();
 
 export const schemas = {
   Pagination,
@@ -74,6 +101,8 @@ export const schemas = {
   Coupon,
   Affiliate,
   ListAllAffiliatesResponse,
+  CreateAffiliateRequest,
+  UpdateAffiliateRequest,
 };
 
 const endpoints = makeApi([
@@ -110,6 +139,33 @@ const endpoints = makeApi([
     ],
   },
   {
+    method: "post",
+    path: "/affiliates",
+    alias: "postAffiliates",
+    description: `Create a new affiliate in Rewardful`,
+    requestFormat: "form-url",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: CreateAffiliateRequest,
+      },
+    ],
+    response: Affiliate,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request - Invalid input data`,
+        schema: z.void(),
+      },
+      {
+        status: 401,
+        description: `Unauthorized - Invalid API key or permissions`,
+        schema: z.void(),
+      },
+    ],
+  },
+  {
     method: "get",
     path: "/affiliates/:id",
     alias: "getAffiliatesId",
@@ -124,6 +180,43 @@ const endpoints = makeApi([
     ],
     response: Affiliate,
     errors: [
+      {
+        status: 401,
+        description: `Unauthorized - Invalid API key or permissions`,
+        schema: z.void(),
+      },
+      {
+        status: 404,
+        description: `Affiliate not found`,
+        schema: z.void(),
+      },
+    ],
+  },
+  {
+    method: "put",
+    path: "/affiliates/:id",
+    alias: "putAffiliatesId",
+    description: `Update an existing affiliate in Rewardful`,
+    requestFormat: "form-url",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: UpdateAffiliateRequest,
+      },
+      {
+        name: "id",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: Affiliate,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request - Invalid input data`,
+        schema: z.void(),
+      },
       {
         status: 401,
         description: `Unauthorized - Invalid API key or permissions`,
