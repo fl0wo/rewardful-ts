@@ -33,6 +33,11 @@ const project = new typescript.TypeScriptProject({
 
     packageManager: NodePackageManager.PNPM,
 
+    jestOptions: {
+        passWithNoTests: true,
+    },
+    jest: true,
+
     gitignore: [
         'secret.ts',
     ],
