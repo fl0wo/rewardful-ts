@@ -12,7 +12,10 @@ import * as fs from 'fs';
 import {readMethodsForAffiliates} from "../src/schemas/affiliate/read";
 import {AffiliateSchema} from "../src/schemas/affiliate/schema";
 import {writeMethodsForAffiliates} from "../src/schemas/affiliate/write";
-import {addMagicLinkSchemaToRegistry} from "../src/schemas/affiliate/link";
+import {addMagicLinkSchemaToRegistry} from "../src/schemas/affiliate/sso";
+import {AffiliateLinkSchema} from "../src/schemas/link/schema";
+import {addListAffiliateLinksSchemaToRegistry} from "../src/schemas/link/read";
+import {addCreateAffiliateLinkSchemaToRegistry} from "../src/schemas/link/write";
 
 extendZodWithOpenApi(z);
 
@@ -20,10 +23,13 @@ function getOpenApiDocumentation() {
     const registry = new OpenAPIRegistry();
 
     registry.register('Affiliate', AffiliateSchema);
-
     readMethodsForAffiliates(registry);
     writeMethodsForAffiliates(registry);
     addMagicLinkSchemaToRegistry(registry);
+
+    registry.register('AffiliateLink', AffiliateLinkSchema);
+    addListAffiliateLinksSchemaToRegistry(registry);
+    addCreateAffiliateLinkSchemaToRegistry(registry);
 
     const generator = new OpenApiGeneratorV3(registry.definitions);
 

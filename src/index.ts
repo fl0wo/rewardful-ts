@@ -5,7 +5,6 @@ export function createRewardfulClient(
 ) {
     const auth = 'Basic ' + Buffer.from(secret + ':' + '').toString('base64');
 
-    // FIXME: body might need some tweeks // body: new URLSearchParams(body)
     return createApiClient(
         "https://api.getrewardful.com/v1",
         {
