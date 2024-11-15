@@ -54,7 +54,11 @@ const project = new typescript.TypeScriptProject({
             'generate',
             '*/schemas/*',
             '*/mock/*'
-        ]
+        ],
+
+        compilerOptions: {
+            "skipLibCheck": true,
+        }
     },
 
     npmignore: [

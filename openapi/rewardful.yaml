@@ -1561,6 +1561,8 @@ paths:
       description: Retrieve a list of all affiliates with pagination, optional
         expansion, and filtering by campaign or email.
       summary: List all affiliates with filtering
+      tags: &a5
+        - Affiliate
       security:
         - bearerAuth: []
       parameters:
@@ -1603,6 +1605,8 @@ paths:
     post:
       description: Create a new affiliate in Rewardful
       summary: Create an affiliate
+      tags: &a6
+        - Affiliate
       security:
         - bearerAuth: []
       requestBody:
@@ -1625,6 +1629,7 @@ paths:
     get:
       description: Retrieve a single affiliate by its unique ID
       summary: Get an affiliate
+      tags: *a5
       security:
         - bearerAuth: []
       parameters:
@@ -1649,6 +1654,7 @@ paths:
     put:
       description: Update an existing affiliate in Rewardful
       summary: Update an affiliate
+      tags: *a6
       security:
         - bearerAuth: []
       parameters:
@@ -1684,6 +1690,8 @@ paths:
       summary: Generate SSO link for affiliate
       security:
         - bearerAuth: []
+      tags:
+        - Affiliate
       parameters:
         - schema:
             type: string
@@ -1710,6 +1718,8 @@ paths:
       summary: List all affiliate links
       security:
         - bearerAuth: []
+      tags: &a7
+        - AffiliateLink
       responses:
         "200":
           description: Object containing pagination info and an array of AffiliateLink
@@ -1723,6 +1733,8 @@ paths:
     post:
       description: Create a new affiliate link
       summary: Create an affiliate link
+      tags: &a8
+        - AffiliateLink
       security:
         - bearerAuth: []
       requestBody:
@@ -1745,6 +1757,7 @@ paths:
     get:
       description: Retrieve a single affiliate link by its unique ID
       summary: Get an affiliate link
+      tags: *a7
       security:
         - bearerAuth: []
       parameters:
@@ -1770,6 +1783,7 @@ paths:
     put:
       description: Update an existing affiliate link by its unique ID
       summary: Update an affiliate link
+      tags: *a8
       security:
         - bearerAuth: []
       parameters:
@@ -1803,6 +1817,8 @@ paths:
     get:
       description: Retrieve a list of all affiliate coupons with pagination
       summary: List all affiliate coupons
+      tags: &a9
+        - AffiliateCoupon
       security:
         - bearerAuth: []
       responses:
@@ -1818,6 +1834,8 @@ paths:
     post:
       description: Create a new affiliate coupon
       summary: Create an affiliate coupon
+      tags:
+        - AffiliateCoupon
       security:
         - bearerAuth: []
       requestBody:
@@ -1842,6 +1860,7 @@ paths:
       summary: Get an affiliate coupon
       security:
         - bearerAuth: []
+      tags: *a9
       parameters:
         - schema:
             type: string
@@ -1867,6 +1886,8 @@ paths:
       description: Retrieve a list of referrals with optional filtering, expansion,
         and pagination.
       summary: List referrals with filters
+      tags:
+        - Referral
       security:
         - bearerAuth: []
       parameters:
@@ -1937,6 +1958,8 @@ paths:
       description: Retrieve a list of commissions with optional filtering, expansion,
         and pagination.
       summary: List commissions with filters
+      tags:
+        - Commission
       security:
         - bearerAuth: []
       parameters:
@@ -2004,6 +2027,8 @@ paths:
     get:
       description: Retrieve a single commission by its unique ID
       summary: Get a commission
+      tags:
+        - Commission
       security:
         - bearerAuth: []
       parameters:
@@ -2029,6 +2054,8 @@ paths:
     put:
       description: Update a commission's paid or due date status.
       summary: Update commission
+      tags:
+        - Commission
       security:
         - bearerAuth: []
       parameters:
@@ -2061,6 +2088,8 @@ paths:
     delete:
       description: Delete a commission by its unique ID
       summary: Delete commission
+      tags:
+        - Commission
       security:
         - bearerAuth: []
       parameters:
@@ -2087,6 +2116,8 @@ paths:
     put:
       description: Mark a payout as paid. This queues the payout for processing.
       summary: Mark payout as paid
+      tags:
+        - Payout
       security:
         - bearerAuth: []
       parameters:
@@ -2136,6 +2167,8 @@ paths:
       description: Retrieve a list of payouts with optional filtering, expansion, and
         pagination.
       summary: List payouts with filters
+      tags:
+        - Payout
       security:
         - bearerAuth: []
       parameters:
@@ -2208,6 +2241,8 @@ paths:
     get:
       description: Retrieve a single payout by its unique ID
       summary: Get a payout
+      tags:
+        - Payout
       security:
         - bearerAuth: []
       parameters:
@@ -2242,6 +2277,8 @@ paths:
     get:
       description: Retrieve a list of all campaigns with pagination.
       summary: List campaigns
+      tags:
+        - Campaign
       security:
         - bearerAuth: []
       responses:
@@ -2267,6 +2304,8 @@ paths:
     post:
       description: Create a new campaign with specified attributes.
       summary: Create campaign
+      tags:
+        - Campaign
       security:
         - bearerAuth: []
       requestBody:
@@ -2311,6 +2350,8 @@ paths:
     put:
       description: Update a specific campaign by its unique ID.
       summary: Update campaign
+      tags:
+        - Campaign
       security:
         - bearerAuth: []
       parameters:
@@ -2376,6 +2417,8 @@ paths:
     get:
       description: Retrieve a single campaign by its unique ID.
       summary: Get a campaign
+      tags:
+        - Campaign
       security:
         - bearerAuth: []
       parameters:

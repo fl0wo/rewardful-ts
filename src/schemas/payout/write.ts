@@ -4,7 +4,10 @@ import {PayoutSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addMarkPayoutAsPaidSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addMarkPayoutAsPaidSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the bearer authentication scheme
     const bearerAuth = registry.registerComponent("securitySchemes", "bearerAuth", {
         type: "http",
@@ -18,6 +21,7 @@ export const addMarkPayoutAsPaidSchemaToRegistry = (registry: OpenAPIRegistry) =
         path: "/payouts/{id}/pay",
         description: "Mark a payout as paid. This queues the payout for processing.",
         summary: "Mark payout as paid",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

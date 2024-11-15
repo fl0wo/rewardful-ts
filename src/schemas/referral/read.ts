@@ -4,7 +4,10 @@ import {ReferralSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListReferralsSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListReferralsSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define pagination schema
     const PaginationSchema = z.object({
         previous_page: z.number().nullable().openapi({ example: null }),
@@ -64,6 +67,7 @@ export const addListReferralsSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/referrals",
         description: "Retrieve a list of referrals with optional filtering, expansion, and pagination.",
         summary: "List referrals with filters",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             query: listReferralsQuerySchema,

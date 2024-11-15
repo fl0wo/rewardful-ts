@@ -4,7 +4,10 @@ import {CommissionSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListCommissionsSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListCommissionsSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define pagination schema
     const PaginationSchema = z.object({
         previous_page: z.number().nullable().openapi({ example: null }),
@@ -64,6 +67,7 @@ export const addListCommissionsSchemaToRegistry = (registry: OpenAPIRegistry) =>
         path: "/commissions",
         description: "Retrieve a list of commissions with optional filtering, expansion, and pagination.",
         summary: "List commissions with filters",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             query: listCommissionsQuerySchema,
@@ -84,7 +88,10 @@ export const addListCommissionsSchemaToRegistry = (registry: OpenAPIRegistry) =>
     });
 };
 
-export const addGetCommissionSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addGetCommissionSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the bearer authentication scheme
     const bearerAuth = registry.registerComponent("securitySchemes", "bearerAuth", {
         type: "http",
@@ -98,6 +105,7 @@ export const addGetCommissionSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/commissions/{id}",
         description: "Retrieve a single commission by its unique ID",
         summary: "Get a commission",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

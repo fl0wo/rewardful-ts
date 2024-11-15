@@ -4,7 +4,10 @@ import {AffiliateCouponSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListAndGetAffiliateCouponsSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListAndGetAffiliateCouponsSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define pagination schema for listing affiliate coupons
     const PaginationSchema = z.object({
         previous_page: z.number().nullable().openapi({ example: null }),
@@ -35,6 +38,7 @@ export const addListAndGetAffiliateCouponsSchemaToRegistry = (registry: OpenAPIR
         path: "/affiliate_coupons",
         description: "Retrieve a list of all affiliate coupons with pagination",
         summary: "List all affiliate coupons",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         responses: {
             200: {
@@ -58,6 +62,7 @@ export const addListAndGetAffiliateCouponsSchemaToRegistry = (registry: OpenAPIR
         description: "Retrieve a single affiliate coupon by its unique ID",
         summary: "Get an affiliate coupon",
         security: [{ [bearerAuth.name]: [] }],
+        tags: tags,
         request: {
             params: z.object({
                 id: z.string().uuid().openapi({

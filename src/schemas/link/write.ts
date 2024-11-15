@@ -4,7 +4,10 @@ import {AffiliateLinkSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addCreateAffiliateLinkSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addCreateAffiliateLinkSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the request schema for creating an affiliate link
     const CreateAffiliateLinkRequestSchema = z.object({
         affiliate_id: z.string().uuid().openapi({
@@ -30,6 +33,7 @@ export const addCreateAffiliateLinkSchemaToRegistry = (registry: OpenAPIRegistry
         path: "/affiliate_links",
         description: "Create a new affiliate link",
         summary: "Create an affiliate link",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             body: {
@@ -72,6 +76,7 @@ export const addCreateAffiliateLinkSchemaToRegistry = (registry: OpenAPIRegistry
         path: "/affiliate_links/{id}",
         description: "Update an existing affiliate link by its unique ID",
         summary: "Update an affiliate link",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

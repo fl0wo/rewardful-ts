@@ -41,38 +41,38 @@ function getOpenApiDocumentation() {
     const registry = new OpenAPIRegistry();
 
     registry.register('Affiliate', AffiliateSchema);
-    readMethodsForAffiliates(registry);
-    writeMethodsForAffiliates(registry);
-    addMagicLinkSchemaToRegistry(registry);
+    readMethodsForAffiliates(registry, ['Affiliate']);
+    writeMethodsForAffiliates(registry, ['Affiliate']);
+    addMagicLinkSchemaToRegistry(registry, ['Affiliate']);
 
     registry.register('AffiliateLink', AffiliateLinkSchema);
-    addListAffiliateLinksSchemaToRegistry(registry);
-    addCreateAffiliateLinkSchemaToRegistry(registry);
+    addListAffiliateLinksSchemaToRegistry(registry, ['AffiliateLink']);
+    addCreateAffiliateLinkSchemaToRegistry(registry, ['AffiliateLink']);
 
     registry.register('AffiliateCoupon', AffiliateCouponSchema);
-    addListAndGetAffiliateCouponsSchemaToRegistry(registry);
-    addCreateAffiliateCouponSchemaToRegistry(registry);
+    addListAndGetAffiliateCouponsSchemaToRegistry(registry, ['AffiliateCoupon']);
+    addCreateAffiliateCouponSchemaToRegistry(registry, ['AffiliateCoupon']);
 
     registry.register('ReferralSchema',ReferralSchema);
-    addListReferralsSchemaToRegistry(registry);
+    addListReferralsSchemaToRegistry(registry, ['Referral']);
 
     registry.register('CommissionSchema',CommissionSchema);
-    addListCommissionsSchemaToRegistry(registry);
-    addGetCommissionSchemaToRegistry(registry);
-    addMarkCommissionAsPaidSchemaToRegistry(registry);
-    addUpdateCommissionSchemaToRegistry(registry);
-    addDeleteCommissionSchemaToRegistry(registry);
+    addListCommissionsSchemaToRegistry(registry, ['Commission']);
+    addGetCommissionSchemaToRegistry(registry, ['Commission']);
+    addMarkCommissionAsPaidSchemaToRegistry(registry, ['Commission']);
+    addUpdateCommissionSchemaToRegistry(registry, ['Commission']);
+    addDeleteCommissionSchemaToRegistry(registry, ['Commission']);
 
     registry.register('PayoutSchema', PayoutSchema);
-    addListPayoutsSchemaToRegistry(registry);
-    addGetPayoutSchemaToRegistry(registry);
-    addMarkPayoutAsPaidSchemaToRegistry(registry);
+    addListPayoutsSchemaToRegistry(registry, ['Payout']);
+    addGetPayoutSchemaToRegistry(registry, ['Payout']);
+    addMarkPayoutAsPaidSchemaToRegistry(registry, ['Payout']);
 
     registry.register('CampaignSchema', CampaignSchema);
-    addListCampaignsSchemaToRegistry(registry);
-    addCreateCampaignSchemaToRegistry(registry);
-    addUpdateCampaignSchemaToRegistry(registry);
-    addGetCampaignSchemaToRegistry(registry);
+    addListCampaignsSchemaToRegistry(registry, ['Campaign']);
+    addCreateCampaignSchemaToRegistry(registry, ['Campaign']);
+    addUpdateCampaignSchemaToRegistry(registry, ['Campaign']);
+    addGetCampaignSchemaToRegistry(registry, ['Campaign']);
 
     const generator = new OpenApiGeneratorV3(registry.definitions);
 

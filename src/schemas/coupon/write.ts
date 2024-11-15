@@ -4,7 +4,10 @@ import {AffiliateCouponSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addCreateAffiliateCouponSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addCreateAffiliateCouponSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the request schema for creating an affiliate coupon
     const CreateAffiliateCouponRequestSchema = z.object({
         affiliate_id: z.string().uuid().openapi({
@@ -30,6 +33,7 @@ export const addCreateAffiliateCouponSchemaToRegistry = (registry: OpenAPIRegist
         path: "/affiliate_coupons",
         description: "Create a new affiliate coupon",
         summary: "Create an affiliate coupon",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             body: {

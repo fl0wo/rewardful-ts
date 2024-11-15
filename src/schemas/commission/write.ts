@@ -6,7 +6,10 @@ import {PayoutSchema} from "../payout/schema";
 extendZodWithOpenApi(z);
 
 
-export const addMarkCommissionAsPaidSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addMarkCommissionAsPaidSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the bearer authentication scheme
     const bearerAuth = registry.registerComponent("securitySchemes", "bearerAuth", {
         type: "http",
@@ -20,6 +23,7 @@ export const addMarkCommissionAsPaidSchemaToRegistry = (registry: OpenAPIRegistr
         path: "/payouts/{id}/pay",
         description: "Mark a payout and its commissions as paid.",
         summary: "Mark commission as paid",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({
@@ -48,7 +52,10 @@ export const addMarkCommissionAsPaidSchemaToRegistry = (registry: OpenAPIRegistr
     });
 };
 
-export const addUpdateCommissionSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addUpdateCommissionSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the request schema for updating a commission
     const UpdateCommissionRequestSchema = z.object({
         paid_at: z.string().datetime().nullable().optional().openapi({
@@ -74,6 +81,7 @@ export const addUpdateCommissionSchemaToRegistry = (registry: OpenAPIRegistry) =
         path: "/commissions/{id}",
         description: "Update a commission's paid or due date status.",
         summary: "Update commission",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

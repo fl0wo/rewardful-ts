@@ -4,7 +4,10 @@ import {CampaignSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListCampaignsSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListCampaignsSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
 
     // Define pagination schema
     const PaginationSchema = z.object({
@@ -36,6 +39,7 @@ export const addListCampaignsSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/campaigns",
         description: "Retrieve a list of all campaigns with pagination.",
         summary: "List campaigns",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         responses: {
             200: {
@@ -63,7 +67,10 @@ export const addListCampaignsSchemaToRegistry = (registry: OpenAPIRegistry) => {
     });
 };
 
-export const addGetCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addGetCampaignSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the error response schema
     const ErrorResponseSchema = z.object({
         error: z.string().openapi({
@@ -85,6 +92,7 @@ export const addGetCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/campaigns/{id}",
         description: "Retrieve a single campaign by its unique ID.",
         summary: "Get a campaign",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

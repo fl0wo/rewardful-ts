@@ -3,7 +3,10 @@ import { extendZodWithOpenApi, OpenAPIRegistry } from '@asteasolutions/zod-to-op
 
 extendZodWithOpenApi(z);
 
-export const addMagicLinkSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addMagicLinkSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the SSO link response schema
     const SSOSchema = z.object({
         url: z.string().url().openapi({
@@ -46,6 +49,7 @@ export const addMagicLinkSchemaToRegistry = (registry: OpenAPIRegistry) => {
         description: 'Generate an SSO link for an affiliate, allowing them to access their account',
         summary: 'Generate SSO link for affiliate',
         security: [{ [bearerAuth.name]: [] }],
+        tags: tags,
         request: {
             params: z.object({
                 id: z.string().uuid().openapi({

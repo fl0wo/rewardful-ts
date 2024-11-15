@@ -4,7 +4,10 @@ import {CampaignSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addCreateCampaignSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the request schema for creating a new campaign
     const CreateCampaignRequestSchema = z.object({
         name: z.string().openapi({
@@ -46,6 +49,7 @@ export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
         path: "/campaigns",
         description: "Create a new campaign with specified attributes.",
         summary: "Create campaign",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             body: {
@@ -95,7 +99,10 @@ export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
     });
 };
 
-export const addUpdateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addUpdateCampaignSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the request schema for updating a campaign
     const UpdateCampaignRequestSchema = z.object({
         name: z.string().optional().openapi({
@@ -121,6 +128,7 @@ export const addUpdateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
         path: "/campaigns/{id}",
         description: "Update a specific campaign by its unique ID.",
         summary: "Update campaign",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

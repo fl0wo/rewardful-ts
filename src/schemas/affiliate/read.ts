@@ -3,7 +3,10 @@ import {extendZodWithOpenApi, OpenAPIRegistry} from '@asteasolutions/zod-to-open
 import {AffiliateSchema} from "./schema";
 extendZodWithOpenApi(z);
 
-export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
+export const readMethodsForAffiliates = (
+    registry:OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the bearer authentication scheme
     const bearerAuth = registry.registerComponent('securitySchemes', 'bearerAuth', {
         type: 'http',
@@ -55,6 +58,7 @@ export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
         path: '/affiliates',
         description: 'Retrieve a list of all affiliates with pagination, optional expansion, and filtering by campaign or email.',
         summary: 'List all affiliates with filtering',
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             query: listAllAffiliatesQuerySchema
@@ -80,6 +84,7 @@ export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
         path: '/affiliates/{id}',
         description: 'Retrieve a single affiliate by its unique ID',
         summary: 'Get an affiliate',
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

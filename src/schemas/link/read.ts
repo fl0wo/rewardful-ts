@@ -4,7 +4,10 @@ import {AffiliateLinkSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListAffiliateLinksSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListAffiliateLinksSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define pagination schema for listing affiliate links
     const PaginationSchema = z.object({
         previous_page: z.number().nullable().openapi({ example: null }),
@@ -36,6 +39,7 @@ export const addListAffiliateLinksSchemaToRegistry = (registry: OpenAPIRegistry)
         description: "Retrieve a list of all affiliate links with pagination",
         summary: "List all affiliate links",
         security: [{ [bearerAuth.name]: [] }],
+        tags: tags,
         responses: {
             200: {
                 description: "Object containing pagination info and an array of AffiliateLink objects.",
@@ -56,6 +60,7 @@ export const addListAffiliateLinksSchemaToRegistry = (registry: OpenAPIRegistry)
         path: "/affiliate_links/{id}",
         description: "Retrieve a single affiliate link by its unique ID",
         summary: "Get an affiliate link",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

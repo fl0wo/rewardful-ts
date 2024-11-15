@@ -4,7 +4,10 @@ import {AffiliateSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const writeMethodsForAffiliates = (registry: OpenAPIRegistry) => {
+export const writeMethodsForAffiliates = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
 
     // Define request schema for creating an affiliate
     const CreateAffiliateRequestSchema = z.object({
@@ -67,6 +70,7 @@ export const writeMethodsForAffiliates = (registry: OpenAPIRegistry) => {
         path: '/affiliates',
         description: 'Create a new affiliate in Rewardful',
         summary: 'Create an affiliate',
+        tags: tags,
         security: [{[bearerAuth.name]: []}],
         request: {
             body: {
@@ -100,6 +104,7 @@ export const writeMethodsForAffiliates = (registry: OpenAPIRegistry) => {
         path: '/affiliates/{id}',
         description: 'Update an existing affiliate in Rewardful',
         summary: 'Update an affiliate',
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

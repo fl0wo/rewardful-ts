@@ -4,7 +4,10 @@ import {PayoutSchema} from "./schema";
 
 extendZodWithOpenApi(z);
 
-export const addListPayoutsSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addListPayoutsSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define pagination schema
     const PaginationSchema = z.object({
         previous_page: z.number().nullable().openapi({ example: null }),
@@ -64,6 +67,7 @@ export const addListPayoutsSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/payouts",
         description: "Retrieve a list of payouts with optional filtering, expansion, and pagination.",
         summary: "List payouts with filters",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             query: listPayoutsQuerySchema,
@@ -86,7 +90,10 @@ export const addListPayoutsSchemaToRegistry = (registry: OpenAPIRegistry) => {
 
 extendZodWithOpenApi(z);
 
-export const addGetPayoutSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addGetPayoutSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the error response schema
     const ErrorResponseSchema = z.object({
         error: z.string().openapi({
@@ -108,6 +115,7 @@ export const addGetPayoutSchemaToRegistry = (registry: OpenAPIRegistry) => {
         path: "/payouts/{id}",
         description: "Retrieve a single payout by its unique ID",
         summary: "Get a payout",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

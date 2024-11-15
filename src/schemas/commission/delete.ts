@@ -3,7 +3,10 @@ import { extendZodWithOpenApi, OpenAPIRegistry } from "@asteasolutions/zod-to-op
 
 extendZodWithOpenApi(z);
 
-export const addDeleteCommissionSchemaToRegistry = (registry: OpenAPIRegistry) => {
+export const addDeleteCommissionSchemaToRegistry = (
+    registry: OpenAPIRegistry,
+    tags: string[]
+) => {
     // Define the response schema for a successful deletion
     const DeleteCommissionResponseSchema = z.object({
         object: z.literal("commission").openapi({
@@ -33,6 +36,7 @@ export const addDeleteCommissionSchemaToRegistry = (registry: OpenAPIRegistry) =
         path: "/commissions/{id}",
         description: "Delete a commission by its unique ID",
         summary: "Delete commission",
+        tags: tags,
         security: [{ [bearerAuth.name]: [] }],
         request: {
             params: z.object({

@@ -51,6 +51,7 @@ describe("Mocked Affiliate Tests", () => {
                 .query({expand: "campaign"})
                 .reply(200, mockResponse);
 
+
             const {data} = await api.getAffiliates({
                 queries: {expand: "campaign"},
             });
