@@ -22,7 +22,10 @@
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
-    "projen": "npx projen"
+    "projen": "npx projen",
+    "generate:openapi": "tsx generate/openapi.ts",
+    "generate:client": "tsx generate/client.ts",
+    "generate": "pnpm generate:openapi && pnpm generate:client"
   },
   "author": {
     "name": "Florian Sabani",

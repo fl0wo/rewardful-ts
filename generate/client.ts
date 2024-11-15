@@ -14,7 +14,9 @@ const main = async () => {
             withDocs: false,
 
             withAlias: true,
-            shouldExportAllSchemas: true,
+            shouldExportAllSchemas: false,
+            shouldExportAllTypes: false,
+            complexityThreshold: -1,
             additionalPropertiesDefaultValue: false,
         }
     });

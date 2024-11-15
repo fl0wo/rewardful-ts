@@ -22,6 +22,10 @@ dist
 tsconfig.tsbuildinfo
 secret.ts
 secret.example.ts
+.idea
+generate
+*/schemas/*
+*/mock/*
 /.gitattributes
 /.projenrc.ts
 /projenrc

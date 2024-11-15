@@ -45,6 +45,18 @@ const project = new typescript.TypeScriptProject({
         'zod', 'openapi', 'axios', 'http', 'request', 'browser'
     ],
 
+    tsconfig: {
+        exclude: [
+            'node_modules',
+            'dist',
+            'coverage',
+            'schema',
+            'generate',
+            '*/schemas/*',
+            '*/mock/*'
+        ]
+    },
+
     deps: [
         '@zodios/core'
     ],
@@ -61,8 +73,15 @@ const project = new typescript.TypeScriptProject({
 
 project.addPackageIgnore('secret.ts');
 project.addPackageIgnore('secret.example.ts');
+project.addPackageIgnore('.idea');
+project.addPackageIgnore( 'generate');
+project.addPackageIgnore('*/schemas/*');
+project.addPackageIgnore('*/mock/*');
 
-// generate the sdk:
-// pnpm openapi-zod-client "./input/file.yaml" -o "./output/client.ts"
+project.addScripts({
+    'generate:openapi': 'tsx generate/openapi.ts',
+    'generate:client': 'tsx generate/client.ts',
+    'generate': 'pnpm generate:openapi && pnpm generate:client'
+});
 
 project.synth();
