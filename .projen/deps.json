@@ -68,6 +68,10 @@
       "type": "build"
     },
     {
+      "name": "yaml",
+      "type": "build"
+    },
+    {
       "name": "zod",
       "type": "build"
     },

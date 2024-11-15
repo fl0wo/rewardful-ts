@@ -57,6 +57,16 @@ const project = new typescript.TypeScriptProject({
         ]
     },
 
+    npmignore: [
+        'secret.ts',
+        'secret.example.ts',
+        '.idea',
+        'generate',
+        'openapi',
+        '*/schemas/*',
+        '*/mock/*'
+    ],
+
     deps: [
         '@zodios/core'
     ],
@@ -67,16 +77,10 @@ const project = new typescript.TypeScriptProject({
         'openapi3-ts',
         'prettier',
         'nock',
-        'zod'
+        'zod',
+        'yaml'
     ]
 });
-
-project.addPackageIgnore('secret.ts');
-project.addPackageIgnore('secret.example.ts');
-project.addPackageIgnore('.idea');
-project.addPackageIgnore( 'generate');
-project.addPackageIgnore('*/schemas/*');
-project.addPackageIgnore('*/mock/*');
 
 project.addScripts({
     'generate:openapi': 'tsx generate/openapi.ts',

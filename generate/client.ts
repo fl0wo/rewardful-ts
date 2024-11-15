@@ -10,13 +10,14 @@ const main = async () => {
         options: {
             apiClientName: "RewardfulApiClient",
             baseUrl: "https://api.getrewardful.com/v1",
-            withDescription: true,
-            withDocs: false,
 
-            withAlias: true,
+            withDescription: true,
+            withAlias: true, // getAffiliatesId(...
+
             shouldExportAllSchemas: false,
+            exportAllNamedSchemas: false,
+
             shouldExportAllTypes: false,
-            complexityThreshold: -1,
             additionalPropertiesDefaultValue: false,
         }
     });

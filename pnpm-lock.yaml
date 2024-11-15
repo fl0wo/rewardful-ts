@@ -60,6 +60,9 @@ importers:
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
+      yaml:
+        specifier: ^2.6.0
+        version: 2.6.0
       zod:
         specifier: ^3.23.8
         version: 3.23.8
