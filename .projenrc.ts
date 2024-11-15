@@ -37,7 +37,8 @@ const project = new typescript.TypeScriptProject({
 
     gitignore: [
         'secret.ts',
-        '.idea'
+        '.idea',
+        'live.test.ts'
     ],
 
     keywords: [
@@ -46,6 +47,10 @@ const project = new typescript.TypeScriptProject({
     ],
 
     tsconfig: {
+        compilerOptions: {
+            declarationMap: true,
+            declaration: true,
+        },
         exclude: [
             'node_modules',
             'dist',
@@ -54,7 +59,7 @@ const project = new typescript.TypeScriptProject({
             'generate',
             '*/schemas/*',
             '*/mock/*'
-        ]
+        ],
     },
 
     npmignore: [

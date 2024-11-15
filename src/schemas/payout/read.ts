@@ -73,7 +73,7 @@ export const addListPayoutsSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Object containing pagination info and an array of Payout objects.",
                 content: {
                     "application/json": {
-                        schema: ListPayoutsResponseSchema.partial(),
+                        schema: ListPayoutsResponseSchema,
                     },
                 },
             },
@@ -122,7 +122,7 @@ export const addGetPayoutSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Payout object for the specified ID.",
                 content: {
                     "application/json": {
-                        schema: PayoutSchema.partial(),
+                        schema: PayoutSchema,
                     },
                 },
             },

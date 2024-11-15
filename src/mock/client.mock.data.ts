@@ -19,7 +19,16 @@ export const anAffiliate:RewardfulAffiliate = {
     state: "active",
     visitors: 0,
     leads: 0,
-    conversions: 0
+    conversions: 0,
+    confirmed_at: null,
+    paypal_email_confirmed_at: null,
+    wise_email: null,
+    wise_email_confirmed_at: null,
+    receive_new_commission_notifications: false,
+    sign_in_count: 0,
+    unconfirmed_email: null,
+    stripe_customer_id: null,
+    stripe_account_id: null
 }
 
 export const aCustumer:RewardfulCustomer = {

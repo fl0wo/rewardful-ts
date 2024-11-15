@@ -32,6 +32,7 @@ jspm_packages/
 .cache
 secret.ts
 .idea
+live.test.ts
 /test-reports/
 junit.xml
 /coverage/

@@ -32,7 +32,7 @@ export const addMarkPayoutAsPaidSchemaToRegistry = (registry: OpenAPIRegistry) =
                 description: "Payout object with updated state, typically set to 'processing'.",
                 content: {
                     "application/json": {
-                        schema: PayoutSchema.partial(),
+                        schema: PayoutSchema,
                     },
                 },
             },

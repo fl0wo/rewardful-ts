@@ -82,7 +82,7 @@ export const writeMethodsForAffiliates = (registry: OpenAPIRegistry) => {
                 description: 'Affiliate created successfully.',
                 content: {
                     'application/json': {
-                        schema: AffiliateSchema.partial(),
+                        schema: AffiliateSchema,
                     },
                 },
             },
@@ -118,7 +118,7 @@ export const writeMethodsForAffiliates = (registry: OpenAPIRegistry) => {
                 description: 'Affiliate updated successfully.',
                 content: {
                     'application/json': {
-                        schema: AffiliateSchema.partial(),
+                        schema: AffiliateSchema,
                     },
                 },
             },

@@ -1,6 +1,5 @@
 import {z} from "zod";
 import {extendZodWithOpenApi} from "@asteasolutions/zod-to-openapi";
-import {CampaignSchema} from "../campain/schema";
 extendZodWithOpenApi(z);
 
 export const LinkSchema = z.object({
@@ -21,23 +20,34 @@ export const CouponSchema = z.object({
     affiliate_id: z.string().uuid().openapi({ example: '95d48f70-f1d4-42d9-b929-21996b6d9eb4' })
 }).openapi('Coupon');
 
+// affiliate/schema.ts
 export const AffiliateSchema = z.object({
-    id: z.string().uuid().openapi({ example: 'd0ed8392-8880-4f39-8715-60230f9eceab' }),
-    created_at: z.string().datetime().openapi({ example: '2019-05-09T16:18:59.920Z' }),
-    updated_at: z.string().datetime().openapi({ example: '2019-05-09T16:25:42.614Z' }),
-    first_name: z.string().openapi({ example: 'Adam' }),
-    last_name: z.string().openapi({ example: 'Jones' }),
-    email: z.string().email().openapi({ example: 'adam.jones@example.com' }),
-    paypal_email: z.string().email().nullable().openapi({ example: null }),
-    state: z.enum(['active', 'inactive']).openapi({ example: 'active' }),
-    stripe_customer_id: z.string().nullable().optional().openapi({ example: 'cus_ABCDEF123456' }),
-    stripe_account_id: z.string().nullable().optional().openapi({ example: 'acct_ABCDEF123456' }),
-    visitors: z.number().int().openapi({ example: 100 }),
-    leads: z.number().int().openapi({ example: 42 }),
-    conversions: z.number().int().openapi({ example: 18 }),
-    campaign: CampaignSchema.nullable().optional(),
-    links: z.array(LinkSchema).optional(),
-    coupon: CouponSchema.nullable().optional()
+    id: z.string().uuid(),
+    created_at: z.string().datetime(),
+    updated_at: z.string().datetime(),
+    state: z.enum(['active', 'inactive']),
+    first_name: z.string(),
+    last_name: z.string(),
+    email: z.string().email(),
+    confirmed_at: z.string().datetime().nullable(),
+    paypal_email: z.string().email().nullable(),
+    paypal_email_confirmed_at: z.string().datetime().nullable(),
+    wise_email: z.string().email().nullable(),
+    wise_email_confirmed_at: z.string().datetime().nullable(),
+    receive_new_commission_notifications: z.boolean(),
+    sign_in_count: z.number(),
+    unconfirmed_email: z.string().email().nullable(),
+    stripe_customer_id: z.string().nullable(),
+    stripe_account_id: z.string().nullable(),
+    visitors: z.number(),
+    leads: z.number(),
+    conversions: z.number(),
+    campaign: z.object({
+        id: z.string().uuid(),
+        created_at: z.string().datetime(),
+        updated_at: z.string().datetime(),
+        name: z.string()
+    }).optional()
 }).openapi('Affiliate');
 
 

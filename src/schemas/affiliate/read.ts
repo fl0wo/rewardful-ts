@@ -64,7 +64,7 @@ export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
                 description: 'Object containing pagination info and array of Affiliate objects.',
                 content: {
                     'application/json': {
-                        schema: ListAllAffiliatesResponseSchema.partial(),
+                        schema: ListAllAffiliatesResponseSchema,
                     },
                 },
             },
@@ -91,7 +91,7 @@ export const readMethodsForAffiliates = (registry:OpenAPIRegistry) => {
                 description: 'Affiliate object for the specified ID.',
                 content: {
                     'application/json': {
-                        schema: AffiliateSchema.partial(),
+                        schema: AffiliateSchema,
                     },
                 },
             },

@@ -73,7 +73,7 @@ export const addListReferralsSchemaToRegistry = (registry: OpenAPIRegistry) => {
                 description: "Object containing pagination info and an array of Referral objects.",
                 content: {
                     "application/json": {
-                        schema: ListReferralsResponseSchema.partial(),
+                        schema: ListReferralsResponseSchema,
                     },
                 },
             },

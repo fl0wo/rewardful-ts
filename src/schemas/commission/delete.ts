@@ -47,7 +47,7 @@ export const addDeleteCommissionSchemaToRegistry = (registry: OpenAPIRegistry) =
                 description: "Confirmation that the commission was deleted.",
                 content: {
                     "application/json": {
-                        schema: DeleteCommissionResponseSchema.partial(),
+                        schema: DeleteCommissionResponseSchema,
                     },
                 },
             },

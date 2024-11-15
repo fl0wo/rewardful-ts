@@ -45,7 +45,7 @@ export const addCreateAffiliateLinkSchemaToRegistry = (registry: OpenAPIRegistry
                 description: "Affiliate link created successfully.",
                 content: {
                     "application/json": {
-                        schema: AffiliateLinkSchema.partial(),
+                        schema: AffiliateLinkSchema,
                     },
                 },
             },
@@ -93,7 +93,7 @@ export const addCreateAffiliateLinkSchemaToRegistry = (registry: OpenAPIRegistry
                 description: "Affiliate link updated successfully.",
                 content: {
                     "application/json": {
-                        schema: AffiliateLinkSchema.partial(),
+                        schema: AffiliateLinkSchema,
                     },
                 },
             },
