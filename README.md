@@ -10,6 +10,34 @@ Built with [Zod & OpenAPI](https://github.com/asteasolutions/zod-to-openapi) and
 pnpm install rewardful-ts
 ```
 
+## Feature Support
+| Method                 | Implemented | Mock Tested | Live Tested |
+|------------------------|-------------|-------------|-------------|
+| getAffiliates          | ✅           | ✅           | ✅           |
+| getAffiliatesId        | ✅           | ✅           | ✅           |
+| postAffiliates         | ✅           | ✅           | ✅           |
+| putAffiliatesId        | ✅           | ✅           | ✅           |
+| getCampaigns           | ✅           | ✅           | ✅           |
+| getCampaignsId         | ✅           | ✅           | ✅           |
+| postCampaigns          | ✅           | ✅           | ✅           |
+| putCampaignsId         | ✅           | ✅           | ✅           |
+| getCommissions         | ✅           | ✅           | ✅           |
+| getCommissionsId       | ✅           | ✅           | ✅           |
+| putCommissionsId       | ✅           | ✅           | ❌           |
+| getAffiliate_coupons   | ✅           | ✅           | ❌           |
+| getAffiliate_couponsId | ✅           | ✅           | ❌           |
+| postAffiliate_coupons  | ✅           | ✅           | ❌           |
+| getAffiliate_links     | ✅           | ✅           | ❌           |
+| getAffiliate_linksId   | ✅           | ✅           | ❌           |
+| postAffiliate_links    | ✅           | ✅           | ❌           |
+| putAffiliate_linksId   | ✅           | ✅           | ❌           |
+| getPayouts             | ✅           | ✅           | ❌           |
+| getPayoutsId           | ✅           | ✅           | ❌           |
+| putPayoutsIdpay        | ✅           | ✅           | ❌           |
+| getReferrals           | ✅           | ✅           | ❌           |
+
+
+
 ## Quick Start
 
 ```typescript
