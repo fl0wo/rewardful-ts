@@ -22,6 +22,7 @@ describe("Mocked Affiliate Tests", () => {
             const mockResponse = {
                 data: [
                     {
+                        ...anAffiliate,
                         id: "7da3be64-90d2-48cf-abad-2aeb173ee24a",
                         paypal_email: "john.doe@example.com",
                         created_at: "2023-01-01T12:00:00Z",
@@ -62,6 +63,8 @@ describe("Mocked Affiliate Tests", () => {
 
         it("get a single affiliate", async () => {
             const mockAffiliate = {
+                ...anAffiliate,
+
                 id: "7da3be64-90d2-48cf-abad-2aeb173ee24a",
                 first_name: "Jane",
                 last_name: "Smith",
@@ -92,6 +95,8 @@ describe("Mocked Affiliate Tests", () => {
 
         it("create a new affiliate", async () => {
             const mockAffiliate = {
+                ...anAffiliate,
+
                 id: "8bc3be64-90d2-48cf-abad-2aeb173ee29b",
                 first_name: "James",
                 last_name: "Bond",
@@ -130,6 +135,8 @@ describe("Mocked Affiliate Tests", () => {
 
         it("update an existing affiliate", async () => {
             const mockUpdatedAffiliate = {
+                ...anAffiliate,
+
                 id: "7da3be64-90d2-48cf-abad-2aeb173ee24a",
                 first_name: "NewFirst",
                 last_name: "NewLast",
@@ -273,7 +280,7 @@ describe("Mocked Affiliate Tests", () => {
                 name: "Exclusive Rewardful Campaign",
                 url: "https://rewardful.com/exclusive",
                 private: true,
-                reward_type: "flat",
+                reward_type: "amount",
                 commission_percent: null,
                 minimum_payout_cents: 5000,
                 days_before_referrals_expire: 45,
@@ -301,7 +308,7 @@ describe("Mocked Affiliate Tests", () => {
                     name: "Exclusive Rewardful Campaign",
                     url: "https://rewardful.com/exclusive",
                     private: true,
-                    reward_type: "flat",
+                    reward_type: "amount",
                     minimum_payout_cents: 5000,
                 })
                 .reply(201, mockNewCampaign);
@@ -310,7 +317,7 @@ describe("Mocked Affiliate Tests", () => {
                 name: "Exclusive Rewardful Campaign",
                 url: "https://rewardful.com/exclusive",
                 private: true,
-                reward_type: "flat",
+                reward_type: "amount",
                 minimum_payout_cents: 5000,
             });
 
@@ -353,6 +360,9 @@ describe("Mocked Affiliate Tests", () => {
                 .put("/v1/campaigns/ceaef6d9-767e-49aa-a6ab-46c02aa79604", {
                     name: "Updated Campaign Name",
                     minimum_payout_cents: 2000,
+                    commission_amount_cents: 0,
+                    reward_type: "percent",
+                    commission_percent: 0
                 })
                 .reply(200, mockUpdatedCampaign);
 
@@ -360,6 +370,9 @@ describe("Mocked Affiliate Tests", () => {
                 {
                     name: "Updated Campaign Name",
                     minimum_payout_cents: 2000,
+                    commission_amount_cents: 0,
+                    reward_type: "percent",
+                    commission_percent: 0
                 },
                 {
                     params: {id: "ceaef6d9-767e-49aa-a6ab-46c02aa79604"},
