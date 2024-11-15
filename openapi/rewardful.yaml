@@ -368,6 +368,7 @@ components:
           example: false
         private_tokens:
           type: boolean
+          nullable: true
           description: Private tokens flag
           example: false
         commission_amount_cents:
@@ -380,6 +381,7 @@ components:
           description: Commission amount currency
         minimum_payout_cents:
           type: number
+          nullable: true
           description: Minimum payout in cents
           example: 0
         max_commission_period_months:
@@ -392,34 +394,42 @@ components:
           description: Maximum number of commissions
         days_before_referrals_expire:
           type: number
+          nullable: true
           description: Days until referral expiration
           example: 30
         days_until_commissions_are_due:
           type: number
+          nullable: true
           description: Days until commission due date
           example: 30
         affiliate_dashboard_text:
           type: string
+          nullable: true
           description: Dashboard text for affiliates
           example: ""
         custom_reward_description:
           type: string
+          nullable: true
           description: Custom reward description
           example: ""
         welcome_text:
           type: string
+          nullable: true
           description: Welcome message
           example: ""
         customers_visible_to_affiliates:
           type: boolean
+          nullable: true
           description: Customer visibility flag
           example: false
         sale_description_visible_to_affiliates:
           type: boolean
+          nullable: true
           description: Sale description visibility flag
           example: true
         parameter_type:
           type: string
+          nullable: true
           enum: &a2
             - query
             - hash
@@ -433,13 +443,14 @@ components:
           example: jo45MTj3
         default:
           type: boolean
+          nullable: true
           description: Default campaign flag
           example: false
         reward_type:
           type: string
           enum: &a3
             - percent
-            - flat
+            - amount
           description: Reward type
           example: percent
         commission_percent:
@@ -449,22 +460,27 @@ components:
           example: 30
         minimum_payout_currency:
           type: string
+          nullable: true
           description: Minimum payout currency
           example: USD
         visitors:
           type: number
+          nullable: true
           description: Visitor count
           example: 150
         leads:
           type: number
+          nullable: true
           description: Lead count
           example: 39
         conversions:
           type: number
+          nullable: true
           description: Conversion count
           example: 7
         affiliates:
           type: number
+          nullable: true
           description: Affiliate count
           example: 12
     Referral:
@@ -828,6 +844,7 @@ components:
           example: false
         private_tokens:
           type: boolean
+          nullable: true
           description: Private tokens flag
           example: false
         commission_amount_cents:
@@ -840,6 +857,7 @@ components:
           description: Commission amount currency
         minimum_payout_cents:
           type: number
+          nullable: true
           description: Minimum payout in cents
           example: 0
         max_commission_period_months:
@@ -852,34 +870,42 @@ components:
           description: Maximum number of commissions
         days_before_referrals_expire:
           type: number
+          nullable: true
           description: Days until referral expiration
           example: 30
         days_until_commissions_are_due:
           type: number
+          nullable: true
           description: Days until commission due date
           example: 30
         affiliate_dashboard_text:
           type: string
+          nullable: true
           description: Dashboard text for affiliates
           example: ""
         custom_reward_description:
           type: string
+          nullable: true
           description: Custom reward description
           example: ""
         welcome_text:
           type: string
+          nullable: true
           description: Welcome message
           example: ""
         customers_visible_to_affiliates:
           type: boolean
+          nullable: true
           description: Customer visibility flag
           example: false
         sale_description_visible_to_affiliates:
           type: boolean
+          nullable: true
           description: Sale description visibility flag
           example: true
         parameter_type:
           type: string
+          nullable: true
           enum: *a2
           description: Parameter type
           example: query
@@ -890,6 +916,7 @@ components:
           example: jo45MTj3
         default:
           type: boolean
+          nullable: true
           description: Default campaign flag
           example: false
         reward_type:
@@ -904,22 +931,27 @@ components:
           example: 30
         minimum_payout_currency:
           type: string
+          nullable: true
           description: Minimum payout currency
           example: USD
         visitors:
           type: number
+          nullable: true
           description: Visitor count
           example: 150
         leads:
           type: number
+          nullable: true
           description: Lead count
           example: 39
         conversions:
           type: number
+          nullable: true
           description: Conversion count
           example: 7
         affiliates:
           type: number
+          nullable: true
           description: Affiliate count
           example: 12
     Pagination:
@@ -1484,49 +1516,103 @@ components:
       properties:
         name:
           type: string
-          description: The name of the campaign.
-          example: Special Friends of Rewardful
+          description: The campaign's name
+          example: My Campaign
         url:
           type: string
           format: uri
-          description: The URL associated with the campaign.
-          example: https://rewardful.com
+          description: Base URL for generating affiliate links
+          example: https://example.com
         private:
           type: boolean
-          description: Indicates if the campaign is private.
-          example: true
+          nullable: true
+          description: "If true, campaign is invite-only. Default: false"
+          example: false
         reward_type:
           type: string
           enum:
             - percent
-            - flat
-          description: Type of reward for the campaign, either 'percent' or 'flat'.
+            - amount
+          description: Type of reward - percent or amount
           example: percent
         commission_percent:
           type: number
-          description: Commission percentage if the reward type is 'percent'.
-          example: 50
+          description: Commission percentage (required if reward_type is percent)
+          example: 20
+        commission_amount_cents:
+          type: number
+          description: Fixed commission amount in cents (required if reward_type is amount)
+          example: 1000
+        commission_amount_currency:
+          type: string
+          description: Currency code for fixed commission (required if reward_type is
+            amount)
+          example: USD
         minimum_payout_cents:
-          type: integer
-          description: The minimum payout amount in cents.
+          type: number
+          nullable: true
+          description: "Minimum cumulative commissions for payout. Default: 0"
           example: 5000
+        stripe_coupon_id:
+          type: string
+          nullable: true
+          description: Stripe coupon ID for double-sided incentives (Growth/Enterprise only)
+          example: promo_123
       required:
         - name
         - url
-        - private
         - reward_type
-        - minimum_payout_cents
     UpdateCampaignRequest:
       type: object
       properties:
         name:
           type: string
-          description: The updated name of the campaign.
-          example: Best All Time Friends of Rewardful
-        minimum_payout_cents:
-          type: integer
-          description: The updated minimum payout amount in cents.
+          description: The campaign's name
+          example: My Campaign
+        url:
+          type: string
+          format: uri
+          description: Base URL for generating affiliate links
+          example: https://example.com
+        private:
+          type: boolean
+          nullable: true
+          description: If true, campaign is invite-only
+          example: false
+        reward_type:
+          type: string
+          enum:
+            - percent
+            - amount
+          description: Type of reward - percent or amount
+          example: percent
+        commission_percent:
+          type: number
+          description: Commission percentage (required if reward_type is percent)
+          example: 20
+        commission_amount_cents:
+          type: number
+          description: Fixed commission amount in cents (required if reward_type is amount)
           example: 1000
+        commission_amount_currency:
+          type: string
+          description: Currency code for fixed commission (required if reward_type is
+            amount)
+          example: USD
+        minimum_payout_cents:
+          type: number
+          nullable: true
+          description: Minimum cumulative commissions for payout
+          example: 5000
+        stripe_coupon_id:
+          type: string
+          nullable: true
+          description: Stripe coupon ID for double-sided incentives (Growth/Enterprise only)
+          example: promo_123
+      required:
+        - reward_type
+        - commission_percent
+        - commission_amount_cents
   parameters: {}
 paths:
   /affiliates:
@@ -2278,6 +2364,19 @@ paths:
                     type: string
                     description: Error message describing the authentication failure.
                     example: Invalid API Secret.
+                required:
+                  - error
+        "422":
+          description: Unprocessable Entity - Invalid input data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message describing the issue with the input.
+                    example: Invalid input data.
                 required:
                   - error
   /campaigns/{id}:

@@ -293,7 +293,7 @@ const Campaign = z
     name: z.string().describe("Campaign name"),
     url: z.string().url().describe("Campaign URL"),
     private: z.boolean().describe("Private campaign flag"),
-    private_tokens: z.boolean().describe("Private tokens flag"),
+    private_tokens: z.boolean().describe("Private tokens flag").nullable(),
     commission_amount_cents: z
       .number()
       .describe("Fixed commission amount in cents")
@@ -302,7 +302,10 @@ const Campaign = z
       .string()
       .describe("Commission amount currency")
       .nullable(),
-    minimum_payout_cents: z.number().describe("Minimum payout in cents"),
+    minimum_payout_cents: z
+      .number()
+      .describe("Minimum payout in cents")
+      .nullable(),
     max_commission_period_months: z
       .number()
       .describe("Maximum commission period in months")
@@ -313,33 +316,45 @@ const Campaign = z
       .nullable(),
     days_before_referrals_expire: z
       .number()
-      .describe("Days until referral expiration"),
+      .describe("Days until referral expiration")
+      .nullable(),
     days_until_commissions_are_due: z
       .number()
-      .describe("Days until commission due date"),
+      .describe("Days until commission due date")
+      .nullable(),
     affiliate_dashboard_text: z
       .string()
-      .describe("Dashboard text for affiliates"),
-    custom_reward_description: z.string().describe("Custom reward description"),
-    welcome_text: z.string().describe("Welcome message"),
+      .describe("Dashboard text for affiliates")
+      .nullable(),
+    custom_reward_description: z
+      .string()
+      .describe("Custom reward description")
+      .nullable(),
+    welcome_text: z.string().describe("Welcome message").nullable(),
     customers_visible_to_affiliates: z
       .boolean()
-      .describe("Customer visibility flag"),
+      .describe("Customer visibility flag")
+      .nullable(),
     sale_description_visible_to_affiliates: z
       .boolean()
-      .describe("Sale description visibility flag"),
+      .describe("Sale description visibility flag")
+      .nullable(),
     parameter_type: z
       .enum(["query", "hash", "path"])
-      .describe("Parameter type"),
+      .describe("Parameter type")
+      .nullable(),
     stripe_coupon_id: z.string().describe("Stripe coupon ID").nullable(),
-    default: z.boolean().describe("Default campaign flag"),
-    reward_type: z.enum(["percent", "flat"]).describe("Reward type"),
+    default: z.boolean().describe("Default campaign flag").nullable(),
+    reward_type: z.enum(["percent", "amount"]).describe("Reward type"),
     commission_percent: z.number().describe("Commission percentage").nullable(),
-    minimum_payout_currency: z.string().describe("Minimum payout currency"),
-    visitors: z.number().describe("Visitor count"),
-    leads: z.number().describe("Lead count"),
-    conversions: z.number().describe("Conversion count"),
-    affiliates: z.number().describe("Affiliate count"),
+    minimum_payout_currency: z
+      .string()
+      .describe("Minimum payout currency")
+      .nullable(),
+    visitors: z.number().describe("Visitor count").nullable(),
+    leads: z.number().describe("Lead count").nullable(),
+    conversions: z.number().describe("Conversion count").nullable(),
+    affiliates: z.number().describe("Affiliate count").nullable(),
   })
   .partial();
 const Sale = z.object({
@@ -545,30 +560,78 @@ const ListCampaignsResponse = z.object({
   data: z.array(Campaign).describe("List of campaigns"),
 });
 const CreateCampaignRequest = z.object({
-  name: z.string().describe("The name of the campaign."),
-  url: z.string().url().describe("The URL associated with the campaign."),
-  private: z.boolean().describe("Indicates if the campaign is private."),
+  name: z.string().describe("The campaign's name"),
+  url: z.string().url().describe("Base URL for generating affiliate links"),
+  private: z
+    .boolean()
+    .describe("If true, campaign is invite-only. Default: false")
+    .nullish(),
   reward_type: z
-    .enum(["percent", "flat"])
-    .describe("Type of reward for the campaign, either 'percent' or 'flat'."),
+    .enum(["percent", "amount"])
+    .describe("Type of reward - percent or amount"),
   commission_percent: z
     .number()
-    .describe("Commission percentage if the reward type is 'percent'.")
+    .describe("Commission percentage (required if reward_type is percent)")
+    .optional(),
+  commission_amount_cents: z
+    .number()
+    .describe(
+      "Fixed commission amount in cents (required if reward_type is amount)"
+    )
+    .optional(),
+  commission_amount_currency: z
+    .string()
+    .describe(
+      "Currency code for fixed commission (required if reward_type is amount)"
+    )
     .optional(),
   minimum_payout_cents: z
     .number()
-    .int()
-    .describe("The minimum payout amount in cents."),
+    .describe("Minimum cumulative commissions for payout. Default: 0")
+    .nullish(),
+  stripe_coupon_id: z
+    .string()
+    .describe(
+      "Stripe coupon ID for double-sided incentives (Growth/Enterprise only)"
+    )
+    .nullish(),
 });
-const UpdateCampaignRequest = z
-  .object({
-    name: z.string().describe("The updated name of the campaign."),
-    minimum_payout_cents: z
-      .number()
-      .int()
-      .describe("The updated minimum payout amount in cents."),
-  })
-  .partial();
+const UpdateCampaignRequest = z.object({
+  name: z.string().describe("The campaign's name").optional(),
+  url: z
+    .string()
+    .url()
+    .describe("Base URL for generating affiliate links")
+    .optional(),
+  private: z.boolean().describe("If true, campaign is invite-only").nullish(),
+  reward_type: z
+    .enum(["percent", "amount"])
+    .describe("Type of reward - percent or amount"),
+  commission_percent: z
+    .number()
+    .describe("Commission percentage (required if reward_type is percent)"),
+  commission_amount_cents: z
+    .number()
+    .describe(
+      "Fixed commission amount in cents (required if reward_type is amount)"
+    ),
+  commission_amount_currency: z
+    .string()
+    .describe(
+      "Currency code for fixed commission (required if reward_type is amount)"
+    )
+    .optional(),
+  minimum_payout_cents: z
+    .number()
+    .describe("Minimum cumulative commissions for payout")
+    .nullish(),
+  stripe_coupon_id: z
+    .string()
+    .describe(
+      "Stripe coupon ID for double-sided incentives (Growth/Enterprise only)"
+    )
+    .nullish(),
+});
 
 export const schemas = {
   Pagination,
@@ -987,6 +1050,15 @@ const endpoints = makeApi([
           error: z
             .string()
             .describe("Error message describing the authentication failure."),
+        }),
+      },
+      {
+        status: 422,
+        description: `Unprocessable Entity - Invalid input data.`,
+        schema: z.object({
+          error: z
+            .string()
+            .describe("Error message describing the issue with the input."),
         }),
       },
     ],

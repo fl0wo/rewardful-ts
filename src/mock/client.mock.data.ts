@@ -105,7 +105,7 @@ export const aCompaign:RewardfulCommission['campaign'] = {
     customers_visible_to_affiliates: false,
     sale_description_visible_to_affiliates: false,
     parameter_type: "path",
-    reward_type: "flat",
+    reward_type: "amount",
     minimum_payout_currency: "",
     affiliates: 0
 }

@@ -8,29 +8,41 @@ export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
     // Define the request schema for creating a new campaign
     const CreateCampaignRequestSchema = z.object({
         name: z.string().openapi({
-            description: "The name of the campaign.",
-            example: "Special Friends of Rewardful",
+            description: "The campaign's name",
+            example: "My Campaign"
         }),
         url: z.string().url().openapi({
-            description: "The URL associated with the campaign.",
-            example: "https://rewardful.com",
+            description: "Base URL for generating affiliate links",
+            example: "https://example.com"
         }),
-        private: z.boolean().openapi({
-            description: "Indicates if the campaign is private.",
-            example: true,
+        private: z.boolean().nullable().optional().openapi({
+            description: "If true, campaign is invite-only. Default: false",
+            example: false
         }),
-        reward_type: z.enum(["percent", "flat"]).openapi({
-            description: "Type of reward for the campaign, either 'percent' or 'flat'.",
-            example: "percent",
+        reward_type: z.enum(["percent", "amount"]).openapi({
+            description: "Type of reward - percent or amount",
+            example: "percent"
         }),
         commission_percent: z.number().optional().openapi({
-            description: "Commission percentage if the reward type is 'percent'.",
-            example: 50.0,
+            description: "Commission percentage (required if reward_type is percent)",
+            example: 20.0
         }),
-        minimum_payout_cents: z.number().int().openapi({
-            description: "The minimum payout amount in cents.",
-            example: 5000,
+        commission_amount_cents: z.number().optional().openapi({
+            description: "Fixed commission amount in cents (required if reward_type is amount)",
+            example: 1000
         }),
+        commission_amount_currency: z.string().optional().openapi({
+            description: "Currency code for fixed commission (required if reward_type is amount)",
+            example: "USD"
+        }),
+        minimum_payout_cents: z.number().nullable().optional().openapi({
+            description: "Minimum cumulative commissions for payout. Default: 0",
+            example: 5000
+        }),
+        stripe_coupon_id: z.string().nullable().optional().openapi({
+            description: "Stripe coupon ID for double-sided incentives (Growth/Enterprise only)",
+            example: "promo_123"
+        })
     }).openapi("CreateCampaignRequest");
 
     // Define the bearer authentication scheme
@@ -91,6 +103,19 @@ export const addCreateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
                     },
                 },
             },
+            422: {
+                description: "Unprocessable Entity - Invalid input data.",
+                content: {
+                    "application/json": {
+                        schema: z.object({
+                            error: z.string().openapi({
+                                description: "Error message describing the issue with the input.",
+                                example: "Invalid input data.",
+                            }),
+                        }),
+                    },
+                },
+            }
         },
     });
 };
@@ -99,13 +124,44 @@ export const addUpdateCampaignSchemaToRegistry = (registry: OpenAPIRegistry) => 
     // Define the request schema for updating a campaign
     const UpdateCampaignRequestSchema = z.object({
         name: z.string().optional().openapi({
-            description: "The updated name of the campaign.",
-            example: "Best All Time Friends of Rewardful",
+            description: "The campaign's name",
+            example: "My Campaign"
         }),
-        minimum_payout_cents: z.number().int().optional().openapi({
-            description: "The updated minimum payout amount in cents.",
-            example: 1000,
+        url: z.string().url().optional().openapi({
+            description: "Base URL for generating affiliate links",
+            example: "https://example.com"
         }),
+        private: z.boolean().nullable().optional().openapi({
+            description: "If true, campaign is invite-only",
+            example: false
+        }),
+        //// Reward type can't be blank
+        reward_type: z.enum(["percent", "amount"]).openapi({
+            description: "Type of reward - percent or amount",
+            example: "percent"
+        }),
+        // Commission percent can't be blank
+        commission_percent: z.number().openapi({
+            description: "Commission percentage (required if reward_type is percent)",
+            example: 20.0
+        }),
+        // Commission amount cents can't be blank
+        commission_amount_cents: z.number().openapi({
+            description: "Fixed commission amount in cents (required if reward_type is amount)",
+            example: 1000
+        }),
+        commission_amount_currency: z.string().optional().openapi({
+            description: "Currency code for fixed commission (required if reward_type is amount)",
+            example: "USD"
+        }),
+        minimum_payout_cents: z.number().nullable().optional().openapi({
+            description: "Minimum cumulative commissions for payout",
+            example: 5000
+        }),
+        stripe_coupon_id: z.string().nullable().optional().openapi({
+            description: "Stripe coupon ID for double-sided incentives (Growth/Enterprise only)",
+            example: "promo_123"
+        })
     }).openapi("UpdateCampaignRequest");
 
     // Define the bearer authentication scheme
